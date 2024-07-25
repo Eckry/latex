@@ -41,7 +41,7 @@ input {
   top: 25px;
   outline: none;
   border: none;
-  background-color: transparent;
+  background-color: var(--primary);
   color: var(--secondary);
   padding: 8px;
   border-radius: 3px;
