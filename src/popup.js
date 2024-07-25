@@ -6,6 +6,7 @@ import katex from 'katex';
 const $equation = document.querySelector('.equation');
 const $copy = document.querySelector('.copy');
 const $input = document.querySelector('input');
+const $clean = document.querySelector('.clean');
 
 let textEquation = '';
 
@@ -36,3 +37,11 @@ $input.addEventListener('input', (e) => {
 
 $copy.addEventListener('click', copy);
 $equation.addEventListener('click', copy);
+
+$clean.addEventListener('click', () => {
+  textEquation = '';
+  katex.render('Equation...', $equation, { throwOnError: false });
+  $input.value = '';
+
+  chrome.storage.local.set({ equation: '' });
+});
