@@ -89,7 +89,7 @@ footer {
   outline: none;
   border: none;
   background-color: transparent;
-  padding: 12px;
+  padding: 6px;
   color: var(--tertiary);
   border: 2px solid var(--secondary);
   cursor: pointer;
