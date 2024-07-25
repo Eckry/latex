@@ -29,6 +29,7 @@ $input.addEventListener('input', (e) => {
   textEquation = e.target.value;
   if (e.target.value === '') {
     katex.render('Equation...', $equation, { throwOnError: false });
+    chrome.storage.local.set({ equation: textEquation });
     return;
   }
   chrome.storage.local.set({ equation: textEquation });
