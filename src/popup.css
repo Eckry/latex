@@ -1,8 +1,9 @@
 :root {
   --primary: #191919;
-  --secondary: #750E21;
-  --tertiary: #E3651D;
-  --highlight: #BED754;
+  --light-primary: #272727;
+  --secondary: #750e21;
+  --tertiary: #e3651d;
+  --highlight: #bed754;
 }
 
 body {
@@ -29,6 +30,24 @@ input {
   border: none;
   color: var(--tertiary);
   border-bottom: 3px solid var(--secondary);
+}
+
+.clean {
+  position: absolute;
+  right: 50px;
+  top: 25px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: var(--secondary);
+  padding: 8px;
+  border-radius: 3px;
+  width: 30px;
+  aspect-ratio: 1;
+}
+
+.clean:hover {
+  background-color: var(--light-primary);
 }
 
 .equation-container {
