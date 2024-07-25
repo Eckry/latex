@@ -45,6 +45,8 @@ input {
   max-width: 550px;
   overflow-x: auto;
   padding: 8px;
+  user-select: none;
+  cursor: pointer;
 }
 
 .katex {
@@ -69,6 +71,10 @@ footer {
   padding: 12px;
   color: var(--tertiary);
   border: 2px solid var(--secondary);
-  width: 100%;
   cursor: pointer;
+  transition: 0.25s ease-in-out;
+}
+
+.copy:hover {
+  scale: 1.1;
 }
