@@ -34,6 +34,9 @@ input {
 
 .clean {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   right: 50px;
   top: 25px;
   outline: none;
