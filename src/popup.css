@@ -35,7 +35,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 80%;
 }
 
 .equation {
@@ -44,7 +44,6 @@ input {
   display: inline;
   max-width: 550px;
   overflow-x: auto;
-  height: min-content;
   padding: 8px;
 }
 
@@ -54,4 +53,22 @@ input {
 
 .katex .katex-html {
   display: none;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 12px;
+  color: var(--tertiary);
+  border: 2px solid var(--secondary);
+  width: 100%;
+  cursor: pointer;
 }
