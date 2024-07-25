@@ -1,16 +1,54 @@
-body {
-  font-family: Arial, sans-serif;
+:root {
+  --primary: #191919;
+  --secondary: #750E21;
+  --tertiary: #E3651D;
+  --highlight: #BED754;
 }
 
-h1 {
+body {
+  height: 500px;
+  width: 700px;
+  left: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--primary);
+  padding: 12px;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  padding: 8px;
+  text-align: center;
+  font-size: 20px;
+  width: 90%;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  color: var(--tertiary);
+  border-bottom: 3px solid var(--secondary);
+}
+
+.equation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.equation {
+  color: var(--highlight);
   font-size: 24px;
+  display: inline;
+  max-width: 550px;
+  overflow-x: auto;
+  height: min-content;
+  padding: 8px;
 }
 
 .katex {
-  display: inline;
-}
-
-.katex .katex-mathml {
   display: inline;
 }
 
