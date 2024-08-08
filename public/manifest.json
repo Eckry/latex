@@ -13,7 +13,7 @@
     "default_title": "Latex",
     "default_popup": "popup.html"
   },
-  "permissions": ["storage", "desktopCapture"],
+  "permissions": ["storage", "desktopCapture", "tabs", "activeTabs"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
