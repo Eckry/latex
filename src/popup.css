@@ -22,6 +22,7 @@ body {
 
 input {
   padding: 8px;
+  padding-right: 32px;
   text-align: center;
   font-size: 20px;
   width: 90%;
@@ -37,7 +38,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 50px;
+  right: 32px;
   top: 25px;
   outline: none;
   border: none;
@@ -85,7 +86,8 @@ footer {
   gap: 12px;
 }
 
-.copy {
+.copy,
+.screenshot {
   outline: none;
   border: none;
   background-color: transparent;
@@ -97,6 +99,7 @@ footer {
   margin: 20px 0;
 }
 
-.copy:hover {
+.copy:hover,
+.screenshot:hover {
   scale: 1.1;
 }
