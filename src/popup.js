@@ -22,7 +22,7 @@ const macros = {
 
 const regExp = /\s(.)\s/gi;
 const replace = (expression) => {
-  return `\\h ${expression[1]} \\e`;
+  return ` \\h ${expression[1]} \\e `;
 };
 
 /**
