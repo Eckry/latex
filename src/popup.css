@@ -47,13 +47,13 @@ input {
   justify-content: center;
   height: 100%;
   width: 100%;
+  overflow-x: auto;
 }
 
 .equation {
   color: var(--highlight);
   font-size: 48px;
   display: inline;
-  overflow-x: auto;
   padding: 8px;
   user-select: none;
   cursor: pointer;
