@@ -9,6 +9,20 @@ const $input = document.querySelector('input');
 const $clean = document.querySelector('.clean');
 const $screenshot = document.body.querySelector('.screenshot');
 const $check = document.getElementById('check');
+
+const macros = {
+  '\\h': '\\color{#e3651d}',
+  '\\e': '\\color{#bed754}',
+};
+
+const replaces = {
+  ' x ': '\\h x \\e',
+};
+const regExp = /\s(x)\s/gi;
+const replace = (expression) => {
+  return replaces[expression];
+};
+
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
  */
@@ -114,12 +128,12 @@ export const waitForFocus = async (result) => {
 let textEquation = '';
 
 window.addEventListener('load', () => {
-  katex.render('Equation...', $equation, { throwOnError: false });
+  render();
   chrome.storage.local.get('equation', (items) => {
     if (items.equation) {
       textEquation = items.equation;
       $input.value = textEquation;
-      katex.render(textEquation, $equation, { throwOnError: false });
+      render();
     }
   });
 });
@@ -182,6 +196,14 @@ function screenshot() {
   });
 }
 
+function render() {
+  katex.render(textEquation.replace(regExp, replace), $equation, {
+    throwOnError: false,
+    macros,
+    displayMode: true,
+  });
+}
+
 function copy() {
   navigator.clipboard.writeText(textEquation);
 }
@@ -189,12 +211,13 @@ function copy() {
 $input.addEventListener('input', (e) => {
   textEquation = e.target.value;
   if (e.target.value === '') {
-    katex.render('Equation...', $equation, { throwOnError: false });
+    render();
+
     chrome.storage.local.set({ equation: textEquation });
     return;
   }
   chrome.storage.local.set({ equation: textEquation });
-  katex.render(textEquation, $equation, { throwOnError: false });
+  render();
 });
 
 $copy.addEventListener('click', copy);
@@ -203,7 +226,7 @@ $screenshot.addEventListener('click', screenshot);
 
 $clean.addEventListener('click', () => {
   textEquation = '';
-  katex.render('Equation...', $equation, { throwOnError: false });
+  render();
   $input.value = '';
 
   chrome.storage.local.set({ equation: '' });
