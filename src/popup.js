@@ -20,18 +20,15 @@ const macros = {
   '\\e': `\\color{${colors.normal}}`,
 };
 
-const replaces = {
-  ' x ': '\\h x \\e',
-};
-const regExp = /\s(x)\s/gi;
+const regExp = /\s(.)\s/gi;
 const replace = (expression) => {
-  return replaces[expression];
+  return `\\h ${expression[1]} \\e`;
 };
 
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
  */
-export const takeScreenshot = async (quality = 1.0, type = 'image/jpeg') => {
+export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
   return navigator.mediaDevices
     .getDisplayMedia({
       // This is actually supported, but only in Chrome so not yet part of the TS typedefs, so
@@ -149,7 +146,9 @@ function screenshot() {
     img.src = screenshot;
 
     img.onload = () => {
-      const { left, top, width, height } = $equation.getBoundingClientRect();
+      const $equationContainer = document.querySelector('.equation-container');
+      const { left, top, width, height } =
+        $equationContainer.getBoundingClientRect();
       const dpr = 2.5;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
