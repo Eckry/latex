@@ -7,8 +7,8 @@ const $equation = document.querySelector('.equation');
 const $copy = document.querySelector('.copy');
 const $input = document.querySelector('input');
 const $clean = document.querySelector('.clean');
-const $screenshot = document.querySelector('.screenshot');
-
+const $screenshot = document.body.querySelector('.screenshot');
+const $check = document.getElementById('check');
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
  */
@@ -19,6 +19,12 @@ export const takeScreenshot = async (quality = 0.7, type = 'image/jpeg') => {
       // @ts-ignore
       preferCurrentTab: true,
       video: { frameRate: 30 },
+    })
+    .then((result) => {
+      setTimeout(() => {
+        $check.classList.add('check-green');
+      }, 1000);
+      return result;
     })
     .then(waitForFocus) // We can only proceed if our tab is in focus.
     .then(async (result) => {
@@ -202,4 +208,8 @@ $clean.addEventListener('click', () => {
   $input.value = '';
 
   chrome.storage.local.set({ equation: '' });
+});
+
+$check.addEventListener('click', () => {
+  $check.classList.remove('check-green');
 });
