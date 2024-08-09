@@ -149,7 +149,7 @@ function screenshot() {
       const $equationContainer = document.querySelector('.equation-container');
       const { left, top, width, height } =
         $equationContainer.getBoundingClientRect();
-      const dpr = 2.5;
+      const dpr = 2.1875;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
       const cropHeight = height * dpr;

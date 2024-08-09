@@ -13,12 +13,11 @@
   --tertiary: #a0a7d2;
   --highlight: #fb2576;
   --light-highlight: #606d26;
-  --x: #c4ac25;
 }
 
 body {
-  height: 300px;
-  width: 700px;
+  height: 500px;
+  width: 800px;
   left: 0;
   font-family: Arial, sans-serif;
   background-color: var(--primary);
@@ -52,7 +51,7 @@ input {
 
 .equation {
   color: var(--highlight);
-  font-size: 24px;
+  font-size: 48px;
   display: inline;
   overflow-x: auto;
   padding: 8px;
