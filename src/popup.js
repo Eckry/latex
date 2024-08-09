@@ -10,9 +10,14 @@ const $clean = document.querySelector('.clean');
 const $screenshot = document.body.querySelector('.screenshot');
 const $check = document.getElementById('check');
 
+const colors = {
+  highlight: '#c4ac25',
+  normal: '#FB2576',
+};
+
 const macros = {
-  '\\h': '\\color{#e3651d}',
-  '\\e': '\\color{#bed754}',
+  '\\h': `\\color{${colors.highlight}}`,
+  '\\e': `\\color{${colors.normal}}`,
 };
 
 const replaces = {
