@@ -12,7 +12,7 @@ const $check = document.getElementById('check');
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
  */
-export const takeScreenshot = async (quality = 0.7, type = 'image/jpeg') => {
+export const takeScreenshot = async (quality = 1.0, type = 'image/jpeg') => {
   return navigator.mediaDevices
     .getDisplayMedia({
       // This is actually supported, but only in Chrome so not yet part of the TS typedefs, so
@@ -23,7 +23,7 @@ export const takeScreenshot = async (quality = 0.7, type = 'image/jpeg') => {
     .then((result) => {
       setTimeout(() => {
         $check.classList.add('check-green');
-      }, 1000);
+      }, 500);
       return result;
     })
     .then(waitForFocus) // We can only proceed if our tab is in focus.
@@ -131,8 +131,7 @@ function screenshot() {
 
     img.onload = () => {
       const { left, top, width, height } = $equation.getBoundingClientRect();
-      const dpr = window.devicePixelRatio;
-
+      const dpr = 2.5;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
       const cropHeight = height * dpr;
@@ -210,6 +209,6 @@ $clean.addEventListener('click', () => {
   chrome.storage.local.set({ equation: '' });
 });
 
-$check.addEventListener('click', () => {
+window.addEventListener('focus', () => {
   $check.classList.remove('check-green');
 });
