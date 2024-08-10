@@ -292,54 +292,15 @@ function render() {
   chrome.storage.local.set({ equation: textEquation });
 }
 
-function copy() {
-  navigator.clipboard.writeText(textEquation);
-}
-
-$input.addEventListener('input', (e) => {
-  textEquation = e.target.value;
-
-  const { width } = $equation.getBoundingClientRect();
-
-  function adjust(n) {
-    const length = $equation.style.fontSize.length;
-    let size = Number($equation.style.fontSize.slice(0, length - 2));
-    if (n === 0) {
-      size -= (size * 5) / 100;
-    } else {
-      if (size < 100) size += (size * 5) / 100;
-    }
-    $equation.style.fontSize = size + 'px';
-    const newWidth = $equation.getBoundingClientRect().width;
-    if (newWidth > 1000 && n === 0) return adjust(n);
-    if (newWidth < 1000 && n === 1 && size < 100) return adjust(n);
-    return;
-  }
-
-  if (width > 1000) adjust(0);
-  if (width < 1000) adjust(1);
-
-  if (e.target.value === '') {
-    render();
-
-    return;
-  }
-  render();
-});
-
-$copy.addEventListener('click', copy);
-$equation.addEventListener('click', copy);
-$screenshot.addEventListener('click', screenshot);
-
-$clean.addEventListener('click', () => {
+function clean() {
   textEquation = '';
   render();
   $input.value = '';
-});
+}
 
-$close.addEventListener('click', () => {
-  hidePopup();
-});
+function copy() {
+  navigator.clipboard.writeText(textEquation);
+}
 
 function showPopup() {
   $popup.classList.remove('disappear');
@@ -354,7 +315,7 @@ function hidePopup() {
   }, 500);
 }
 
-chrome.runtime.onMessage.addListener((msgObj) => {
+function togglePopup() {
   const isHidden = $popup.style.display === 'none';
   const isVisible = $popup.style.display === 'flex';
 
@@ -363,4 +324,37 @@ chrome.runtime.onMessage.addListener((msgObj) => {
   } else if (isVisible) {
     hidePopup();
   }
-});
+}
+
+function adjust(n, size) {
+  if (n === 0) size -= (size * 5) / 100;
+  else if (size < 100) size += (size * 5) / 100;
+
+  $equation.style.fontSize = size + 'px';
+  const newWidth = $equation.getBoundingClientRect().width;
+
+  if (newWidth > 1000 && n === 0) return adjust(n, size);
+  if (newWidth < 1000 && n === 1 && size < 100) return adjust(n, size);
+  return;
+}
+
+function updateEquation(e) {
+  textEquation = e.target.value;
+
+  const { width } = $equation.getBoundingClientRect();
+  let size = parseInt($equation.style.fontSize);
+
+  if (width > 1000) adjust(0, size);
+  if (width < 1000) adjust(1, size);
+
+  render();
+}
+
+$input.addEventListener('input', updateEquation);
+$copy.addEventListener('click', copy);
+$equation.addEventListener('click', copy);
+$screenshot.addEventListener('click', screenshot);
+$clean.addEventListener('click', clean);
+$close.addEventListener('click', hidePopup);
+
+chrome.runtime.onMessage.addListener(togglePopup);
