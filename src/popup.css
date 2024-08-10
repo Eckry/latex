@@ -12,7 +12,35 @@
   --secondaryLATEX: #ff0130;
   --tertiaryLATEX: #a0a7d2;
   --highlightLATEX: #fb2576;
+  --dark-highlightLATEX: #580e2a;
   --light-highlightLATEX: #606d26;
+}
+
+.bodyLATEX {
+  height: 50px;
+  width: 50px;
+  background-color: var(--primaryLATEX);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkboxLATEX {
+  display: none;
+}
+
+.clickLATEX {
+  display: block;
+  background-color: var(--highlightLATEX);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 5px 0 1px var(--dark-highlightLATEX);
+}
+
+.clickLATEX:active {
+  transform: translateY(5px);
+  box-shadow: none;
 }
 
 .box {

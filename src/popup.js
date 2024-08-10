@@ -1,7 +1,7 @@
 'use strict';
 import './popup.css';
 
-const $checkBox = document.querySelector('.checkbox');
+const $checkBox = document.querySelector('.checkboxLATEX');
 
 $checkBox.addEventListener('click', () => {
   (async () => {
