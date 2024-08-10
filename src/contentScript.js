@@ -3,7 +3,7 @@ import katex from 'katex';
 
 const $popup = document.createElement('div');
 $popup.style.display = 'none';
-$popup.classList.add('box');
+$popup.classList.add('boxTransparentLATEX');
 
 const $input = document.createElement('input');
 $input.classList.add('inputLATEX');
@@ -113,12 +113,6 @@ export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
       preferCurrentTab: true,
       video: { frameRate: 30 },
     })
-    .then((result) => {
-      setTimeout(() => {
-        $check.classList.add('check-green');
-      }, 500);
-      return result;
-    })
     .then(waitForFocus) // We can only proceed if our tab is in focus.
     .then(async (result) => {
       // So we mount the screen capture to a video element...
@@ -218,6 +212,9 @@ window.addEventListener('load', () => {
 });
 
 function screenshot() {
+  $popup.classList.add('boxLATEX');
+  $popup.classList.remove('boxTransparentLATEX');
+  $check.classList.add('check-greenLATEX');
   takeScreenshot().then((screenshot) => {
     const img = new Image();
     img.src = screenshot;
@@ -226,7 +223,6 @@ function screenshot() {
       const { left, top, width, height } =
         $equationContainer.getBoundingClientRect();
       const dpr = window.devicePixelRatio;
-      console.log(dpr);
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
       const cropHeight = height * dpr;
@@ -274,6 +270,9 @@ function screenshot() {
     img.onerror = (err) => {
       console.error('Image load error:', err);
     };
+    $popup.classList.add('boxTransparentLATEX');
+    $popup.classList.remove('boxLATEX');
+    $check.classList.remove('check-greenLATEX');
   });
 }
 
@@ -311,10 +310,6 @@ $clean.addEventListener('click', () => {
   $input.value = '';
 
   chrome.storage.local.set({ equation: '' });
-});
-
-window.addEventListener('focus', () => {
-  $check.classList.remove('check-green');
 });
 
 chrome.runtime.onMessage.addListener((msgObj) => {
