@@ -208,13 +208,12 @@ export const waitForFocus = async (result) => {
 let textEquation = '';
 
 window.addEventListener('load', () => {
-  render();
   chrome.storage.local.get('equation', (items) => {
     if (items.equation) {
       textEquation = items.equation;
       $input.value = textEquation;
-      render();
     }
+    render();
   });
 });
 
@@ -285,6 +284,7 @@ function render() {
     macros,
     displayMode: true,
   });
+  chrome.storage.local.set({ equation: textEquation });
 }
 
 function copy() {
@@ -317,10 +317,8 @@ $input.addEventListener('input', (e) => {
   if (e.target.value === '') {
     render();
 
-    chrome.storage.local.set({ equation: textEquation });
     return;
   }
-  chrome.storage.local.set({ equation: textEquation });
   render();
 });
 
@@ -332,8 +330,6 @@ $clean.addEventListener('click', () => {
   textEquation = '';
   render();
   $input.value = '';
-
-  chrome.storage.local.set({ equation: '' });
 });
 
 chrome.runtime.onMessage.addListener((msgObj) => {
