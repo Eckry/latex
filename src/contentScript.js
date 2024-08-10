@@ -305,9 +305,7 @@ function copy() {
   navigator.clipboard.writeText(textEquation);
 }
 
-function displayNonePopup() {
-  $popup.style.display = 'none';
-}
+const displayNonePopup = () => ($popup.style.display = 'none');
 
 function showPopup() {
   $popup.removeEventListener('animationend', displayNonePopup);
