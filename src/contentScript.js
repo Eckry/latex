@@ -12,6 +12,7 @@ const $equationContainer = document.createElement('div');
 $equationContainer.classList.add('equation-containerLATEX');
 
 const $equation = document.createElement('p');
+$equation.style.fontSize = '100px';
 $equation.classList.add('equationLATEX');
 
 const $footer = document.createElement('footer');
@@ -292,6 +293,27 @@ function copy() {
 
 $input.addEventListener('input', (e) => {
   textEquation = e.target.value;
+
+  const { width } = $equation.getBoundingClientRect();
+
+  function adjust(n) {
+    const length = $equation.style.fontSize.length;
+    let size = Number($equation.style.fontSize.slice(0, length - 2));
+    if (n === 0) {
+      size -= (size * 5) / 100;
+    } else {
+      if (size < 100) size += (size * 5) / 100;
+    }
+    $equation.style.fontSize = size + 'px';
+    const newWidth = $equation.getBoundingClientRect().width;
+    if (newWidth > 1000 && n === 0) return adjust(n);
+    if (newWidth < 1000 && n === 1 && size < 100) return adjust(n);
+    return;
+  }
+
+  if (width > 1000) adjust(0);
+  if (width < 1000) adjust(1);
+
   if (e.target.value === '') {
     render();
 
