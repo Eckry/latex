@@ -225,7 +225,7 @@ function screenshot() {
     img.onload = () => {
       const { left, top, width, height } =
         $equationContainer.getBoundingClientRect();
-      const dpr = window.devicePixelRatio;
+      const dpr = 1.25;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
       const cropHeight = height * dpr;
