@@ -229,14 +229,14 @@ function screenshot() {
 
     img.onload = () => {
       const { left, top, width, height } = $equation.getBoundingClientRect();
+
       const dpr = 1.25;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
       const cropWidth = width * dpr;
       const cropHeight = height * dpr;
 
       // Calculate the top-left corner of the cropped area (center of the image)
-      const startX = left * dpr;
-      const startY = top * dpr;
+      const start = { x: left * dpr, y: top * dpr };
 
       // Create a canvas with the size of the cropped area
       const canvas = document.createElement('canvas');
@@ -248,8 +248,8 @@ function screenshot() {
       // Draw the cropped area from the image onto the canvas
       ctx.drawImage(
         img,
-        startX,
-        startY, // Source x and y (start from the center of the image)
+        start.x,
+        start.y, // Source x and y (start from the center of the image)
         cropWidth,
         cropHeight, // Source width and height (size of the cropped area)
         0,
@@ -265,13 +265,11 @@ function screenshot() {
               'image/png': blob,
             }),
           ])
-          .then(() => {
-            console.log('Image copied to clipboard as PNG');
-          })
-          .catch((err) => {
-            console.error('Could not copy image to clipboard:', err);
-          });
-      }, 'image/png'); // Ensure the image is saved as PNG
+          .then(() => console.log('Image copied to clipboard as PNG'))
+          .catch((err) =>
+            console.error('Could not copy image to clipboard:', err)
+          );
+      }, 'image/png');
     };
 
     img.onerror = (err) => {
