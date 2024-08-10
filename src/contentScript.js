@@ -338,7 +338,7 @@ $clean.addEventListener('click', () => {
 });
 
 $close.addEventListener('click', () => {
-  $popup.style.display = 'none';
+  hidePopup();
 });
 
 function showPopup() {
