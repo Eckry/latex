@@ -50,8 +50,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 500px;
-  width: 800px;
+  height: 700px;
+  width: 1200px;
   background-color: var(--primaryLATEX);
   display: flex;
   flex-direction: column;
@@ -92,7 +92,7 @@
 
 .equationLATEX {
   color: var(--highlightLATEX);
-  font-size: 64px;
+  font-size: 100px;
   display: inline;
   padding: 8px;
   user-select: none;
