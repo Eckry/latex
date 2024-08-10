@@ -212,14 +212,18 @@ export const waitForFocus = async (result) => {
 
 let textEquation = '';
 
-window.addEventListener('load', () => {
-  chrome.storage.local.get('equation', (items) => {
-    if (items.equation) {
-      textEquation = items.equation;
-      $input.value = textEquation;
-    }
-    render();
-  });
+window.addEventListener('load', async () => {
+  const { equation, fontSize } = await chrome.storage.local.get([
+    'equation',
+    'fontSize',
+  ]);
+
+  if (equation) {
+    $input.value = equation;
+    textEquation = equation;
+  }
+  if (fontSize) $equation.style.fontSize = fontSize;
+  render();
 });
 
 function screenshot() {
@@ -288,6 +292,7 @@ function render() {
     displayMode: true,
   });
   chrome.storage.local.set({ equation: textEquation });
+  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
 }
 
 function clean() {
@@ -301,13 +306,13 @@ function copy() {
 }
 
 function showPopup() {
-  $popup.classList.remove('disappear');
-  $popup.classList.add('appear');
+  $popup.classList.remove('disappearLATEX');
+  $popup.classList.add('appearLATEX');
   $popup.style.display = 'flex';
 }
 
 function hidePopup() {
-  $popup.classList.replace('appear', 'disappear');
+  $popup.classList.replace('appearLATEX', 'disappearLATEX');
   setTimeout(() => {
     $popup.style.display = 'none';
   }, 500);

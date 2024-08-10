@@ -68,15 +68,15 @@
   background-color: var(--primaryTransparentLATEX);
 }
 
-.disappear {
-  animation: 0.5s disappear ease-in-out both;
+.disappearLATEX {
+  animation: 0.5s disappearLATEX ease-in-out both;
 }
 
-.appear {
-  animation: 0.5s appear ease-in-out;
+.appearLATEX {
+  animation: 0.5s appearLATEX ease-in-out;
 }
 
-@keyframes disappear {
+@keyframes disappearLATEX {
   from {
     transform: translate(-50%, -50%);
     opacity: 1;
@@ -88,7 +88,7 @@
   }
 }
 
-@keyframes appear {
+@keyframes appearLATEX {
   from {
     opacity: 0;
     transform: translate(-50%, -30%);
