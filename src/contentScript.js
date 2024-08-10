@@ -113,6 +113,12 @@ export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
       preferCurrentTab: true,
       video: { frameRate: 30 },
     })
+    .then((result) => {
+      $popup.classList.add('boxLATEX');
+      $popup.classList.remove('boxTransparentLATEX');
+      $check.classList.add('check-greenLATEX');
+      return result;
+    })
     .then(waitForFocus) // We can only proceed if our tab is in focus.
     .then(async (result) => {
       // So we mount the screen capture to a video element...
@@ -212,9 +218,6 @@ window.addEventListener('load', () => {
 });
 
 function screenshot() {
-  $popup.classList.add('boxLATEX');
-  $popup.classList.remove('boxTransparentLATEX');
-  $check.classList.add('check-greenLATEX');
   takeScreenshot().then((screenshot) => {
     const img = new Image();
     img.src = screenshot;
