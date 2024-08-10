@@ -305,17 +305,20 @@ function copy() {
   navigator.clipboard.writeText(textEquation);
 }
 
+function displayNonePopup() {
+  $popup.style.display = 'none';
+}
+
 function showPopup() {
+  $popup.removeEventListener('animationend', displayNonePopup);
   $popup.classList.remove('disappearLATEX');
   $popup.classList.add('appearLATEX');
   $popup.style.display = 'flex';
 }
 
 function hidePopup() {
+  $popup.addEventListener('animationend', displayNonePopup);
   $popup.classList.replace('appearLATEX', 'disappearLATEX');
-  setTimeout(() => {
-    $popup.style.display = 'none';
-  }, 500);
 }
 
 function togglePopup() {
