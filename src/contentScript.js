@@ -341,10 +341,26 @@ $close.addEventListener('click', () => {
   $popup.style.display = 'none';
 });
 
-chrome.runtime.onMessage.addListener((msgObj) => {
-  if ($popup.style.display === 'none') {
-    $popup.style.display = 'flex';
-  } else {
+function showPopup() {
+  $popup.classList.remove('disappear');
+  $popup.classList.add('appear');
+  $popup.style.display = 'flex';
+}
+
+function hidePopup() {
+  $popup.classList.replace('appear', 'disappear');
+  setTimeout(() => {
     $popup.style.display = 'none';
+  }, 500);
+}
+
+chrome.runtime.onMessage.addListener((msgObj) => {
+  const isHidden = $popup.style.display === 'none';
+  const isVisible = $popup.style.display === 'flex';
+
+  if (isHidden) {
+    showPopup();
+  } else if (isVisible) {
+    hidePopup();
   }
 });

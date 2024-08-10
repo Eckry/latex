@@ -62,20 +62,39 @@
   z-index: 10000;
   gap: 16px;
   transition: 0.25s;
-  animation: 0.5s appear ease-in-out;
 }
 
 .boxTransparentLATEX {
   background-color: var(--primaryTransparentLATEX);
 }
 
+.disappear {
+  animation: 0.5s disappear ease-in-out both;
+}
+
+.appear {
+  animation: 0.5s appear ease-in-out;
+}
+
+@keyframes disappear {
+  from {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(-50%, -30%);
+    opacity: 0;
+  }
+}
+
 @keyframes appear {
-  0% {
+  from {
     opacity: 0;
     transform: translate(-50%, -30%);
   }
 
-  100% {
+  to {
     transform: translate(-50%, -50%);
     opacity: 1;
   }
