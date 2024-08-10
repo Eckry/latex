@@ -48,8 +48,8 @@
 .boxTransparentLATEX {
   position: fixed;
   left: 50%;
-  top: 50%;
   transform: translate(-50%, -50%);
+  top: 50%;
   height: 700px;
   width: 1200px;
   background-color: var(--primaryLATEX);
@@ -62,10 +62,23 @@
   z-index: 10000;
   gap: 16px;
   transition: 0.25s;
+  animation: 0.5s appear ease-in-out;
 }
 
 .boxTransparentLATEX {
   background-color: var(--primaryTransparentLATEX);
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
 }
 
 .inputLATEX {
