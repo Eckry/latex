@@ -61,7 +61,7 @@
   border-radius: 8px;
   z-index: 10000;
   gap: 16px;
-  transition: 0.5s;
+  transition: 0.25s;
 }
 
 .boxTransparentLATEX {
