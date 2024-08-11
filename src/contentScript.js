@@ -275,6 +275,11 @@ function hidePopup() {
   $popup.classList.replace('appearLATEX', 'disappearLATEX');
 }
 
+function hidePopupFast() {
+  displayNonePopup();
+  $popup.classList.replace('appearLATEX', 'disappearLATEX');
+}
+
 function togglePopup() {
   const isHidden = $popup.style.display === 'none';
   const isVisible = $popup.style.display === 'flex';
@@ -316,5 +321,7 @@ $equation.addEventListener('click', copy);
 $screenshot.addEventListener('click', screenshot);
 $clean.addEventListener('click', clean);
 $close.addEventListener('click', hidePopup);
+
+window.addEventListener('blur', hidePopupFast);
 
 chrome.runtime.onMessage.addListener(togglePopup);
