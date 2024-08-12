@@ -1,6 +1,10 @@
 'use strict';
 import katex from 'katex';
 
+const audio = new Audio(
+  'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
+);
+
 const $popup = document.createElement('div');
 $popup.style.display = 'none';
 $popup.classList.add('boxTransparentLATEX');
@@ -93,11 +97,7 @@ export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
       // Hide this modal...
 
       // Play camera click sound, because why not
-      const audio = new Audio(
-        'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
-      );
       audio.play();
-      audio.remove();
       // Wait for the video feed...
       await sleep();
 
