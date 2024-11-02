@@ -345,7 +345,6 @@ function changeFontColor(e) {
 
 $input.addEventListener('input', updateEquation);
 $copy.addEventListener('click', copy);
-$equation.addEventListener('click', copy);
 $screenshot.addEventListener('click', screenshot);
 $clean.addEventListener('click', clean);
 $close.addEventListener('click', hidePopup);
