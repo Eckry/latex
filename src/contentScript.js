@@ -76,17 +76,16 @@ let fontColor = $colorPickerFont.value;
 
 const colors = {
   highlight: '#c4ac25',
-  normal: '#FB2576',
 };
 
-const macros = {
+let macros = {
   '\\h': `\\color{${colors.highlight}}`,
-  '\\e': `\\color{${colors.normal}}`,
+  '\\e': `\\color{${fontColor}}`,
 };
 
 const regExp = /\s(.)\s/gi;
 const replace = (expression) => {
-  return ` \\h ${expression[1]} \\e `;
+  return `{\\color{${colors.highlight}} ${expression[1]}}`;
 };
 
 /**
@@ -340,6 +339,7 @@ function changeBackgroundColor(e) {
 
 function changeFontColor(e) {
   fontColor = e.target.value;
+  render();
   $equation.style.color = fontColor;
 }
 
