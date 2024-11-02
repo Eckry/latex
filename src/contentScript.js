@@ -1,13 +1,15 @@
 'use strict';
 import katex from 'katex';
 
+const MAIN_COLOR = '#070015';
+
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
 );
 
 const $popup = document.createElement('div');
 $popup.style.display = 'none';
-$popup.classList.add('boxTransparentLATEX');
+$popup.classList.add('boxLATEX');
 
 const $input = document.createElement('input');
 $input.classList.add('inputLATEX');
@@ -41,6 +43,12 @@ const $close = document.createElement('button');
 $close.innerHTML = `<svg width="32" height="32"viewBox="0 0 24 24"fill="none"stroke="currentColor"stroke-width="2"  stroke-linecap="round"stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>`;
 $close.classList.add('closeLATEX');
 
+const $colorPicker = document.createElement('input');
+$colorPicker.type = 'color';
+$colorPicker.value = MAIN_COLOR;
+
+$popup.style.backgroundColor = MAIN_COLOR + 'bd';
+
 $popup.appendChild($input);
 $popup.appendChild($equationContainer);
 $equationContainer.appendChild($equation);
@@ -48,10 +56,13 @@ $footer.appendChild($close);
 $footer.appendChild($clean);
 $footer.appendChild($copy);
 $footer.appendChild($screenshot);
+$footer.appendChild($colorPicker);
 $footer.appendChild($check);
 $popup.appendChild($footer);
 
 document.body.appendChild($popup);
+
+let color = $colorPicker.value;
 
 const colors = {
   highlight: '#c4ac25',
@@ -80,8 +91,7 @@ export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
       video: { frameRate: 30 },
     })
     .then((result) => {
-      $popup.classList.add('boxLATEX');
-      $popup.classList.remove('boxTransparentLATEX');
+      $popup.style.backgroundColor = color;
       $check.classList.add('check-greenLATEX');
       return result;
     })
@@ -239,8 +249,7 @@ function screenshot() {
     img.onerror = (err) => {
       console.error('Image load error:', err);
     };
-    $popup.classList.add('boxTransparentLATEX');
-    $popup.classList.remove('boxLATEX');
+    $popup.style.backgroundColor = color + 'bd';
     $check.classList.remove('check-greenLATEX');
   });
 }
@@ -314,11 +323,17 @@ function updateEquation(e) {
   render();
 }
 
+function changeBackgroundColor(e) {
+  color = e.target.value;
+  $popup.style.backgroundColor = color + 'bd';
+}
+
 $input.addEventListener('input', updateEquation);
 $copy.addEventListener('click', copy);
 $equation.addEventListener('click', copy);
 $screenshot.addEventListener('click', screenshot);
 $clean.addEventListener('click', clean);
 $close.addEventListener('click', hidePopup);
+$colorPicker.addEventListener('input', changeBackgroundColor);
 
 chrome.runtime.onMessage.addListener(togglePopup);
