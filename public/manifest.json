@@ -9,10 +9,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "action": {
-    "default_title": "Latex",
-    "default_popup": "popup.html"
-  },
+  "action": {},
   "permissions": ["storage", "desktopCapture", "tabs", "activeTabs"],
   "content_scripts": [
     {
