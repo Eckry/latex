@@ -271,6 +271,13 @@ function render() {
   });
   chrome.storage.local.set({ equation: textEquation });
   chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+  const $katexElements = document.querySelectorAll('mi');
+  $katexElements.forEach((element) => {
+    element.addEventListener('click', () => {
+      element.style.color = colors.highlight;
+    });
+    element.style.cursor = 'pointer';
+  });
 }
 
 function clean() {
