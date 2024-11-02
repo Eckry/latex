@@ -8,7 +8,7 @@
 
 :root {
   --primaryLATEX: #070015;
-  --primaryTransparentLATEX: #070015bd;
+  --primaryTransparentLATEX: #07001574;
   --light-primaryLATEX: #050010;
   --secondaryLATEX: #ff0130;
   --tertiaryLATEX: #a0a7d2;
@@ -117,7 +117,6 @@
 }
 
 .equationLATEX {
-  color: var(--highlightLATEX);
   font-size: 100px;
   display: inline;
   padding: 8px;
@@ -192,4 +191,24 @@
   border-radius: 50%;
   background-color: var(--secondaryLATEX);
   transform: rotate(0deg);
+}
+
+.color-pickerLATEX {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.color-pickerLATEX::-webkit-color-swatch {
+  border-radius: 7px;
+  border: 1px solid var(--tertiaryLATEX);
+}
+.color-pickerLATEX::-moz-color-swatch {
+  border-radius: 7px;
+  border: 1px solid var(--tertiaryLATEX);
 }

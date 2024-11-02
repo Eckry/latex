@@ -1,7 +1,8 @@
 'use strict';
 import katex from 'katex';
 
-const MAIN_COLOR = '#070015';
+const MAIN_BG_COLOR = '#070015';
+const MAIN_FONT_COLOR = '#fb2576';
 
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
@@ -20,6 +21,7 @@ $equationContainer.classList.add('equation-containerLATEX');
 const $equation = document.createElement('p');
 $equation.style.fontSize = '100px';
 $equation.classList.add('equationLATEX');
+$equation.style.color = MAIN_FONT_COLOR;
 
 const $footer = document.createElement('footer');
 $footer.classList.add('footerLATEX');
@@ -45,9 +47,15 @@ $close.classList.add('closeLATEX');
 
 const $colorPicker = document.createElement('input');
 $colorPicker.type = 'color';
-$colorPicker.value = MAIN_COLOR;
+$colorPicker.value = MAIN_BG_COLOR;
+$colorPicker.classList.add('color-pickerLATEX');
 
-$popup.style.backgroundColor = MAIN_COLOR + 'bd';
+const $colorPickerFont = document.createElement('input');
+$colorPickerFont.type = 'color';
+$colorPickerFont.value = MAIN_FONT_COLOR;
+$colorPickerFont.classList.add('color-pickerLATEX');
+
+$popup.style.backgroundColor = MAIN_BG_COLOR + '74';
 
 $popup.appendChild($input);
 $popup.appendChild($equationContainer);
@@ -57,12 +65,14 @@ $footer.appendChild($clean);
 $footer.appendChild($copy);
 $footer.appendChild($screenshot);
 $footer.appendChild($colorPicker);
+$footer.appendChild($colorPickerFont);
 $footer.appendChild($check);
 $popup.appendChild($footer);
 
 document.body.appendChild($popup);
 
-let color = $colorPicker.value;
+let bgcolor = $colorPicker.value;
+let fontColor = $colorPickerFont.value;
 
 const colors = {
   highlight: '#c4ac25',
@@ -91,7 +101,7 @@ export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
       video: { frameRate: 30 },
     })
     .then((result) => {
-      $popup.style.backgroundColor = color;
+      $popup.style.backgroundColor = bgcolor;
       $check.classList.add('check-greenLATEX');
       return result;
     })
@@ -249,7 +259,7 @@ function screenshot() {
     img.onerror = (err) => {
       console.error('Image load error:', err);
     };
-    $popup.style.backgroundColor = color + 'bd';
+    $popup.style.backgroundColor = bgcolor + '74';
     $check.classList.remove('check-greenLATEX');
   });
 }
@@ -324,8 +334,13 @@ function updateEquation(e) {
 }
 
 function changeBackgroundColor(e) {
-  color = e.target.value;
-  $popup.style.backgroundColor = color + 'bd';
+  bgcolor = e.target.value;
+  $popup.style.backgroundColor = bgcolor + '74';
+}
+
+function changeFontColor(e) {
+  fontColor = e.target.value;
+  $equation.style.color = fontColor;
 }
 
 $input.addEventListener('input', updateEquation);
@@ -335,5 +350,6 @@ $screenshot.addEventListener('click', screenshot);
 $clean.addEventListener('click', clean);
 $close.addEventListener('click', hidePopup);
 $colorPicker.addEventListener('input', changeBackgroundColor);
+$colorPickerFont.addEventListener('input', changeFontColor);
 
 chrome.runtime.onMessage.addListener(togglePopup);
