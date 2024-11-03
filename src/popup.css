@@ -104,7 +104,6 @@
   border: none;
   color: var(--tertiaryLATEX);
   border-radius: 4px;
-  background-color: var(--light-primaryLATEX);
 }
 
 .equation-containerLATEX {
