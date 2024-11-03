@@ -3,6 +3,8 @@ import katex from 'katex';
 
 const MAIN_BG_COLOR = '#070015';
 const MAIN_FONT_COLOR = '#fb2576';
+const MAIN_HL_COLOR = '#c4ac25';
+const MAIN_HL2_COLOR = '#a0a7d2';
 
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
@@ -55,6 +57,16 @@ $colorPickerFont.type = 'color';
 $colorPickerFont.value = MAIN_FONT_COLOR;
 $colorPickerFont.classList.add('color-pickerLATEX');
 
+const $colorPickerHL = document.createElement('input');
+$colorPickerHL.type = 'color';
+$colorPickerHL.value = MAIN_HL_COLOR;
+$colorPickerHL.classList.add('color-pickerLATEX');
+
+const $colorPickerHL2 = document.createElement('input');
+$colorPickerHL2.type = 'color';
+$colorPickerHL2.value = MAIN_HL2_COLOR;
+$colorPickerHL2.classList.add('color-pickerLATEX');
+
 $popup.style.backgroundColor = MAIN_BG_COLOR + '74';
 
 $popup.appendChild($input);
@@ -66,6 +78,8 @@ $footer.appendChild($copy);
 $footer.appendChild($screenshot);
 $footer.appendChild($colorPicker);
 $footer.appendChild($colorPickerFont);
+$footer.appendChild($colorPickerHL);
+$footer.appendChild($colorPickerHL2);
 $footer.appendChild($check);
 $popup.appendChild($footer);
 
@@ -73,20 +87,8 @@ document.body.appendChild($popup);
 
 let bgcolor = $colorPicker.value;
 let fontColor = $colorPickerFont.value;
-
-const colors = {
-  highlight: '#c4ac25',
-};
-
-let macros = {
-  '\\h': `\\color{${colors.highlight}}`,
-  '\\e': `\\color{${fontColor}}`,
-};
-
-const regExp = /\s(.)\s/gi;
-const replace = (expression) => {
-  return `{\\color{${colors.highlight}} ${expression[1]}}`;
-};
+let hlColor = $colorPickerHL.value;
+let hl2Color = $colorPickerHL2.value;
 
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
@@ -264,9 +266,8 @@ function screenshot() {
 }
 
 function render() {
-  katex.render(textEquation.replace(regExp, replace), $equation, {
+  katex.render(textEquation, $equation, {
     throwOnError: false,
-    macros,
     displayMode: true,
   });
   chrome.storage.local.set({ equation: textEquation });
@@ -274,7 +275,11 @@ function render() {
   const $katexElements = document.querySelectorAll('mi');
   $katexElements.forEach((element) => {
     element.addEventListener('click', () => {
-      element.style.color = colors.highlight;
+      element.style.color = hlColor;
+    });
+    element.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      element.style.color = hl2Color;
     });
     element.style.cursor = 'pointer';
   });
@@ -346,8 +351,15 @@ function changeBackgroundColor(e) {
 
 function changeFontColor(e) {
   fontColor = e.target.value;
-  render();
   $equation.style.color = fontColor;
+}
+
+function changeHLColor(e) {
+  hlColor = e.target.value;
+}
+
+function changeHL2Color(e) {
+  hl2Color = e.target.value;
 }
 
 $input.addEventListener('input', updateEquation);
@@ -357,5 +369,7 @@ $clean.addEventListener('click', clean);
 $close.addEventListener('click', hidePopup);
 $colorPicker.addEventListener('input', changeBackgroundColor);
 $colorPickerFont.addEventListener('input', changeFontColor);
+$colorPickerHL.addEventListener('input', changeHLColor);
+$colorPickerHL2.addEventListener('input', changeHL2Color);
 
 chrome.runtime.onMessage.addListener(togglePopup);
