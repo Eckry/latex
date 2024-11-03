@@ -2,7 +2,7 @@
 import katex from 'katex';
 
 const MAIN_BG_COLOR = '#070015';
-const MAIN_FONT_COLOR = '#fb2576';
+const MAIN_FONT_COLOR = '#B4FFB3';
 const MAIN_HL_COLOR = '#c4ac25';
 const MAIN_HL2_COLOR = '#a0a7d2';
 
