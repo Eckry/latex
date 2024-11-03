@@ -328,9 +328,11 @@ function adjust(n, size) {
 
   $equation.style.fontSize = size + 'px';
   const newWidth = $equation.getBoundingClientRect().width;
+  const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
 
-  if (newWidth > 1000 && n === 0) return adjust(n, size);
-  if (newWidth < 1000 && n === 1 && size < 100) return adjust(n, size);
+  if (newWidth > containerWidth && n === 0) return adjust(n, size);
+  if (newWidth < containerWidth && n === 1 && size < 100)
+    return adjust(n, size);
   return;
 }
 
@@ -340,8 +342,10 @@ function updateEquation(e) {
   const { width } = $equation.getBoundingClientRect();
   let size = parseInt($equation.style.fontSize);
 
-  if (width > 1000) adjust(0, size);
-  if (width < 1000) adjust(1, size);
+  const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
+
+  if (width > containerWidth) adjust(0, size);
+  if (width < containerWidth) adjust(1, size);
 
   render();
 }
