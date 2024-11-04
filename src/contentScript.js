@@ -390,7 +390,6 @@ $popup.addEventListener('dragover', (e) => {
 $popup.addEventListener('drag', (e) => {
   e.preventDefault();
   const { clientX, clientY } = e;
-  console.log(clientX, offsetX);
   $popup.style.left = `${clientX - offsetX}px`;
   $popup.style.top = `${clientY - offsetY}px`;
 });
