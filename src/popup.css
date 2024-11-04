@@ -64,34 +64,38 @@
 }
 
 .disappearLATEX {
-  animation: 0.5s disappearLATEX ease-in-out both;
+  animation: 0.3s disappearLATEX ease-in-out both;
 }
 
 .appearLATEX {
-  animation: 0.5s appearLATEX ease-in-out;
+  animation: 0.3s appearLATEX ease-in-out;
 }
 
 @keyframes disappearLATEX {
   from {
     transform: translate(-50%, -50%);
     opacity: 1;
+    scale: 1;
   }
 
   to {
     transform: translate(-50%, -30%);
     opacity: 0;
+    scale: 0;
   }
 }
 
 @keyframes appearLATEX {
   from {
     opacity: 0;
+    scale: 0;
     transform: translate(-50%, -30%);
   }
 
   to {
     transform: translate(-50%, -50%);
     opacity: 1;
+    scale: 1;
   }
 }
 
