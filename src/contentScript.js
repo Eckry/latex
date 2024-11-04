@@ -13,6 +13,9 @@ const audio = new Audio(
 const $popup = document.createElement('div');
 $popup.style.display = 'none';
 $popup.classList.add('boxLATEX');
+$popup.style.left = '50px';
+$popup.style.top = '50px';
+$popup.draggable = true;
 
 const $input = document.createElement('input');
 $input.classList.add('inputLATEX');
@@ -91,6 +94,8 @@ let bgcolor = $colorPicker.value;
 let fontColor = $colorPickerFont.value;
 let hlColor = $colorPickerHL.value;
 let hl2Color = $colorPickerHL2.value;
+let offsetX;
+let offsetY;
 
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
@@ -371,6 +376,24 @@ function changeHLColor(e) {
 function changeHL2Color(e) {
   hl2Color = e.target.value;
 }
+
+$popup.addEventListener('dragstart', (e) => {
+  const rect = $popup.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+});
+
+$popup.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+
+$popup.addEventListener('drag', (e) => {
+  e.preventDefault();
+  const { clientX, clientY } = e;
+  console.log(clientX, offsetX);
+  $popup.style.left = `${clientX - offsetX}px`;
+  $popup.style.top = `${clientY - offsetY}px`;
+});
 
 $input.addEventListener('input', updateEquation);
 $copy.addEventListener('click', copy);
