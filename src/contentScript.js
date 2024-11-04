@@ -215,7 +215,8 @@ function screenshot() {
     img.src = screenshot;
 
     img.onload = () => {
-      const { left, top, width, height } = $equation.getBoundingClientRect();
+      const { left, top, width, height } =
+        $equationContainer.getBoundingClientRect();
 
       const dpr = 1.25;
       // Desired dimensions for the cropped area (e.g., 100x100 pixels)
