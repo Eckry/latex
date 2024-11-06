@@ -96,6 +96,7 @@ let hlColor = $colorPickerHL.value;
 let hl2Color = $colorPickerHL2.value;
 let offsetX;
 let offsetY;
+let grabbing = false;
 
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
@@ -377,7 +378,10 @@ function changeHL2Color(e) {
 }
 
 $popup.addEventListener('dragstart', (e) => {
-  if (document.activeElement === $input) e.preventDefault();
+  if (document.activeElement === $input || !grabbing) {
+    e.preventDefault();
+    return;
+  }
   const rect = $popup.getBoundingClientRect();
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
@@ -385,7 +389,7 @@ $popup.addEventListener('dragstart', (e) => {
 
 $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
-
+  if (document.activeElement === $input || !grabbing) return;
   const { pageX, pageY } = e;
   $popup.style.left = `${pageX - offsetX}px`;
   $popup.style.top = `${pageY - offsetY}px`;
@@ -393,6 +397,20 @@ $popup.addEventListener('dragover', (e) => {
 
 $popup.addEventListener('dragend', (e) => {
   e.preventDefault();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Control') {
+    $popup.style.cursor = 'grab';
+    grabbing = true;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'Control') {
+    $popup.style.cursor = 'crosshair';
+    grabbing = false;
+  }
 });
 
 $input.addEventListener('input', updateEquation);
