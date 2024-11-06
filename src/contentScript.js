@@ -384,13 +384,14 @@ $popup.addEventListener('dragstart', (e) => {
 
 $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
+
+  const { pageX, pageY } = e;
+  $popup.style.left = `${pageX - offsetX}px`;
+  $popup.style.top = `${pageY - offsetY}px`;
 });
 
-$popup.addEventListener('drag', (e) => {
+$popup.addEventListener('dragend', (e) => {
   e.preventDefault();
-  const { clientX, clientY } = e;
-  $popup.style.left = `${clientX - offsetX}px`;
-  $popup.style.top = `${clientY - offsetY}px`;
 });
 
 $input.addEventListener('input', updateEquation);
