@@ -377,6 +377,7 @@ function changeHL2Color(e) {
 }
 
 $popup.addEventListener('dragstart', (e) => {
+  if (document.activeElement === $input) e.preventDefault();
   const rect = $popup.getBoundingClientRect();
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
