@@ -15,6 +15,7 @@
   --highlightLATEX: #fb2576;
   --dark-highlightLATEX: #580e2a;
   --light-highlightLATEX: #606d26;
+  --border-blue: #6fa7b1;
 }
 
 .bodyLATEX {
@@ -57,6 +58,8 @@
   border-radius: 8px;
   z-index: 10000;
   gap: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-blue);
 }
 
 .disappearLATEX {
@@ -150,6 +153,7 @@
   justify-content: center;
   transition: 0.25s;
   border-radius: 8px;
+  z-index: 10001;
 }
 
 .copyLATEX:hover,
