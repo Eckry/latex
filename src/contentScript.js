@@ -96,7 +96,10 @@ let hlColor = $colorPickerHL.value;
 let hl2Color = $colorPickerHL2.value;
 let offsetX;
 let offsetY;
+let initialX;
+let initialY;
 let grabbing = false;
+let resizing = false;
 
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
@@ -337,7 +340,7 @@ function adjust(n, size) {
   const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
 
   if (newWidth > containerWidth && n === 0) return adjust(n, size);
-  if (newWidth < containerWidth && n === 1 && size < 100)
+  if (newWidth < containerWidth - 100 && n === 1 && size < 100)
     return adjust(n, size);
   return;
 }
@@ -351,7 +354,7 @@ function updateEquation(e) {
   const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
 
   if (width > containerWidth) adjust(0, size);
-  if (width < containerWidth) adjust(1, size);
+  if (width < containerWidth - 100) adjust(1, size);
 
   render();
 }
@@ -378,21 +381,44 @@ function changeHL2Color(e) {
 }
 
 $popup.addEventListener('dragstart', (e) => {
-  if (document.activeElement === $input || !grabbing) {
+  var img = new Image();
+  img.src =
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+  e.dataTransfer.setDragImage(img, 0, 0);
+  if (document.activeElement === $input || (!grabbing && !resizing)) {
     e.preventDefault();
     return;
   }
   const rect = $popup.getBoundingClientRect();
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
+  initialX = rect.width - e.clientX;
+  initialY = rect.height - e.clientY;
 });
 
 $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
-  if (document.activeElement === $input || !grabbing) return;
-  const { pageX, pageY } = e;
-  $popup.style.left = `${pageX - offsetX}px`;
-  $popup.style.top = `${pageY - offsetY}px`;
+
+  if (resizing) {
+    const { pageX, pageY } = e;
+    $popup.style.width = `${initialX + pageX}px`;
+    $popup.style.height = `${initialY + pageY}px`;
+
+    const { width } = $equation.getBoundingClientRect();
+    let size = parseInt($equation.style.fontSize);
+
+    const containerWidth =
+      $equationContainer.getBoundingClientRect().width - 100;
+
+    if (width > containerWidth) adjust(0, size);
+    if (width < containerWidth - 100) adjust(1, size);
+  }
+
+  if (grabbing) {
+    const { pageX, pageY } = e;
+    $popup.style.left = `${pageX - offsetX}px`;
+    $popup.style.top = `${pageY - offsetY}px`;
+  }
 });
 
 $popup.addEventListener('dragend', (e) => {
@@ -404,13 +430,17 @@ document.addEventListener('keydown', (e) => {
     $popup.style.cursor = 'grab';
     grabbing = true;
   }
+
+  if (e.key === 'Alt') {
+    $popup.style.cursor = 'se-resize';
+    resizing = true;
+  }
 });
 
 document.addEventListener('keyup', (e) => {
-  if (e.key === 'Control') {
-    $popup.style.cursor = 'crosshair';
-    grabbing = false;
-  }
+  $popup.style.cursor = 'crosshair';
+  if (e.key === 'Control') grabbing = false;
+  if (e.key === 'Alt') resizing = false;
 });
 
 $input.addEventListener('input', updateEquation);
