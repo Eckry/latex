@@ -58,7 +58,6 @@
   border-radius: 8px;
   z-index: 10000;
   gap: 16px;
-  backdrop-filter: blur(10px);
   border: 1px solid var(--border-blue);
 }
 
