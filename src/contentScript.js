@@ -340,7 +340,7 @@ function adjust(n, size) {
   const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
 
   if (newWidth > containerWidth && n === 0) return adjust(n, size);
-  if (newWidth < containerWidth - 100 && n === 1 && size < 100)
+  if (newWidth < containerWidth - 50 && n === 1 && size < 100)
     return adjust(n, size);
   return;
 }
@@ -354,7 +354,7 @@ function updateEquation(e) {
   const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
 
   if (width > containerWidth) adjust(0, size);
-  if (width < containerWidth - 100) adjust(1, size);
+  if (width < containerWidth - 50) adjust(1, size);
 
   render();
 }
@@ -411,7 +411,7 @@ $popup.addEventListener('dragover', (e) => {
       $equationContainer.getBoundingClientRect().width - 100;
 
     if (width > containerWidth) adjust(0, size);
-    if (width < containerWidth - 100) adjust(1, size);
+    if (width < containerWidth - 50) adjust(1, size);
   }
 
   if (grabbing) {
