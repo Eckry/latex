@@ -426,6 +426,7 @@ $popup.addEventListener('dragend', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  if(grabbing || resizing) return;
   if (e.key === 'Control') {
     $popup.style.cursor = 'grab';
     grabbing = true;
