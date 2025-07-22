@@ -1,5 +1,9 @@
 'use strict';
 import katex from 'katex';
+const katexCSS = document.createElement('link');
+katexCSS.rel = 'stylesheet';
+katexCSS.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+document.head.appendChild(katexCSS);
 
 const MAIN_BG_COLOR = '#21303C';
 const MAIN_FONT_COLOR = '#B4FFB3';
@@ -277,6 +281,7 @@ function screenshot() {
 }
 
 function render() {
+  $equation.innerHTML = '';
   katex.render(textEquation, $equation, {
     throwOnError: false,
     displayMode: true,
