@@ -288,7 +288,9 @@ function render() {
   });
   chrome.storage.local.set({ equation: textEquation });
   chrome.storage.local.set({ fontSize: $equation.style.fontSize });
-  const $katexElements = document.querySelectorAll('mo, mi, mn');
+  const $katexElements = document.querySelectorAll(
+    '.mathnormal, .mclose, .mopen, .mrel, .mtight, .mbin, .msupsub'
+  );
   $katexElements.forEach((element) => {
     element.addEventListener('click', () => {
       element.style.color = hlColor;

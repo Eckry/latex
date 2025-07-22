@@ -1,9 +1,9 @@
-*,
-*::after,
-*::before {
+.bodyLATEX *,
+.bodyLATEX *::after,
+.bodyLATEX *::before {
   box-sizing: border-box;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 :root {
@@ -126,14 +126,6 @@
   display: inline;
   padding: 8px;
   user-select: none;
-}
-
-.katex {
-  display: inline;
-}
-
-.katex .katex-html {
-  display: none;
 }
 
 .footerLATEX {
