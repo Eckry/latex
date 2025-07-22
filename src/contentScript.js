@@ -1,5 +1,6 @@
 'use strict';
 import katex from 'katex';
+import html2canvas from 'html2canvas';
 const katexCSS = document.createElement('link');
 katexCSS.rel = 'stylesheet';
 katexCSS.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
@@ -108,103 +109,6 @@ let resizing = false;
 /**
  * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
  */
-export const takeScreenshot = async (quality = 1.0, type = 'image/png') => {
-  return navigator.mediaDevices
-    .getDisplayMedia({
-      // This is actually supported, but only in Chrome so not yet part of the TS typedefs, so
-      // @ts-ignore
-      preferCurrentTab: true,
-      video: { frameRate: 30 },
-    })
-    .then((result) => {
-      $popup.style.backgroundColor = bgcolor;
-      $check.classList.add('check-greenLATEX');
-      return result;
-    })
-    .then(waitForFocus) // We can only proceed if our tab is in focus.
-    .then(async (result) => {
-      // So we mount the screen capture to a video element...
-      const video = createVideoElementToCaptureFrames(result);
-
-      // ...which needs to be in the DOM but invisible so we can capture it.
-      document.body.appendChild(video);
-
-      // Now, we need to wait a bit to capture the right moment...
-      // Hide this modal...
-
-      // Play camera click sound, because why not
-      audio.play();
-      // Wait for the video feed...
-      await sleep();
-
-      // Paint the video frame on a canvas...
-      const canvas = paintVideoFrameOnCanvas(video);
-
-      // Set the data URL in state
-      const screenshot = canvas.toDataURL(type, quality);
-
-      // Stop sharing screen.
-      stopCapture(video);
-
-      // Clean up
-      canvas.remove();
-
-      return screenshot;
-    });
-};
-
-export const createVideoElementToCaptureFrames = (mediaStream) => {
-  const video = document.createElement('video');
-  video.autoplay = true;
-  video.muted = true;
-  video.playsInline = true;
-  video.srcObject = mediaStream;
-  video.setAttribute(
-    'style',
-    'position:fixed;top:0;left:0;pointer-events:none;visibility:hidden;'
-  );
-
-  return video;
-};
-
-export const paintVideoFrameOnCanvas = (video) => {
-  // Get the video settings
-  // @ts-ignore because getTracks is very much valid in modern browsers
-  const videoTrackSettings = video.srcObject?.getTracks()[0].getSettings();
-
-  // Create a canvas with the video's size and draw the video frame on it
-  const canvas = document.createElement('canvas');
-  canvas.width = videoTrackSettings?.width ?? 0;
-  canvas.height = videoTrackSettings?.height ?? 0;
-  const ctx = canvas.getContext('2d');
-  ctx?.drawImage(video, 0, 0);
-
-  return canvas;
-};
-
-export const sleep = (timeoutInMs = 300) =>
-  new Promise((r) => {
-    setTimeout(r, timeoutInMs);
-  });
-
-export const stopCapture = (video) => {
-  // @ts-ignore because getTracks is very much valid in modern browsers
-  const tracks = video.srcObject?.getTracks();
-  tracks?.forEach((track) => track.stop());
-
-  // This is the only way to clean up a video stream in the browser so...
-  // eslint-disable-next-line no-param-reassign
-  video.srcObject = null;
-  video.remove();
-};
-
-export const waitForFocus = async (result) => {
-  await sleep();
-  if (document.hasFocus()) {
-    return result;
-  }
-  return waitForFocus(result);
-};
 
 let textEquation = '';
 
@@ -223,61 +127,25 @@ window.addEventListener('load', async () => {
 });
 
 function screenshot() {
-  takeScreenshot().then((screenshot) => {
-    const img = new Image();
-    img.src = screenshot;
+  html2canvas(document.querySelector('.equationLATEX'), {backgroundColor: bgcolor, scale: 3}).then(
+    async (canvas) => {
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          console.error('Failed to create blob from canvas');
+          return;
+        }
 
-    img.onload = () => {
-      const { left, top, width, height } = $equation.getBoundingClientRect();
+        const item = new ClipboardItem({ 'image/png': blob });
 
-      const dpr = 1.25;
-      // Desired dimensions for the cropped area (e.g., 100x100 pixels)
-      const cropWidth = width * dpr;
-      const cropHeight = height * dpr;
-
-      // Calculate the top-left corner of the cropped area (center of the image)
-      const start = { x: left * dpr, y: top * dpr };
-
-      // Create a canvas with the size of the cropped area
-      const canvas = document.createElement('canvas');
-      canvas.width = cropWidth;
-      canvas.height = cropHeight;
-
-      const ctx = canvas.getContext('2d');
-
-      // Draw the cropped area from the image onto the canvas
-      ctx.drawImage(
-        img,
-        start.x,
-        start.y, // Source x and y (start from the center of the image)
-        cropWidth,
-        cropHeight, // Source width and height (size of the cropped area)
-        0,
-        0, // Destination x and y on the canvas
-        cropWidth,
-        cropHeight // Destination width and height on the canvas
-      );
-
-      canvas.toBlob((blob) => {
-        navigator.clipboard
-          .write([
-            new ClipboardItem({
-              'image/png': blob,
-            }),
-          ])
-          .then(() => console.log('Image copied to clipboard as PNG'))
-          .catch((err) =>
-            console.error('Could not copy image to clipboard:', err)
-          );
+        try {
+          await navigator.clipboard.write([item]);
+          console.log('Image copied to clipboard!');
+        } catch (err) {
+          console.error('Failed to copy image: ', err);
+        }
       }, 'image/png');
-    };
-
-    img.onerror = (err) => {
-      console.error('Image load error:', err);
-    };
-    $popup.style.backgroundColor = bgcolor + '74';
-    $check.classList.remove('check-greenLATEX');
-  });
+    }
+  );
 }
 
 function render() {
