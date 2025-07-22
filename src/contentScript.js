@@ -415,9 +415,9 @@ $popup.addEventListener('dragover', (e) => {
   }
 
   if (grabbing) {
-    const { pageX, pageY } = e;
-    $popup.style.left = `${pageX - offsetX}px`;
-    $popup.style.top = `${pageY - offsetY}px`;
+    const { clientX, clientY } = e;
+    $popup.style.left = `${clientX - offsetX}px`;
+    $popup.style.top = `${clientY - offsetY}px`;
   }
 });
 
