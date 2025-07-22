@@ -392,18 +392,20 @@ $popup.addEventListener('dragstart', (e) => {
   const rect = $popup.getBoundingClientRect();
   offsetX = e.clientX - rect.left;
   offsetY = e.clientY - rect.top;
-  initialX = rect.width - e.clientX;
-  initialY = rect.height - e.clientY;
+  initialX = e.clientX;
+  initialY = e.clientY;
 });
 
 $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
 
   if (resizing) {
-    const { pageX, pageY } = e;
-    $popup.style.width = `${initialX + pageX}px`;
-    $popup.style.height = `${initialY + pageY}px`;
-
+    const { width: popupWidth, height } = $popup.getBoundingClientRect();
+    const { clientX, clientY } = e;
+    $popup.style.width = `${clientX - initialX + popupWidth}px`;
+    $popup.style.height = `${clientY - initialY + height}px`;
+    initialX = clientX;
+    initialY = clientY;
     const { width } = $equation.getBoundingClientRect();
     let size = parseInt($equation.style.fontSize);
 
@@ -426,7 +428,7 @@ $popup.addEventListener('dragend', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if(grabbing || resizing) return;
+  if (grabbing || resizing) return;
   if (e.key === 'Control') {
     $popup.style.cursor = 'grab';
     grabbing = true;
