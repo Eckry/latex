@@ -108,10 +108,6 @@ let initialHeight;
 let grabbing = false;
 let resizing = false;
 
-/**
- * Takes a screenshot of the current page using a the native browser [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia) API.
- */
-
 let textEquation = '';
 
 window.addEventListener('load', async () => {
@@ -143,6 +139,7 @@ function screenshot() {
 
       try {
         await navigator.clipboard.write([item]);
+        audio.play();
         console.log('Image copied to clipboard!');
       } catch (err) {
         console.error('Failed to copy image: ', err);
