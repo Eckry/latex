@@ -32,10 +32,6 @@
   align-items: center;
 }
 
-.checkboxLATEX {
-  display: none;
-}
-
 .clickLATEX {
   display: block;
   background-color: var(--highlightLATEX);
@@ -166,33 +162,6 @@
 .closeLATEX:hover {
   scale: 1.1;
   background-color: var(--light-primaryLATEX);
-}
-
-.checkLATEX {
-  position: relative;
-  width: 12px;
-  height: 12px;
-  cursor: pointer;
-  opacity: 1;
-  background-color: var(--secondaryLATEX);
-  transition: 0.25s;
-  border: 3px solid var(--secondaryLATEX);
-  border-radius: 0;
-  background-color: transparent;
-  transform: rotate(45deg);
-}
-
-.check-greenLATEX {
-  position: relative;
-  width: 12px;
-  height: 12px;
-  cursor: pointer;
-  opacity: 1;
-  transition: 0.25s;
-  border: 3px solid var(--secondaryLATEX);
-  border-radius: 50%;
-  background-color: var(--secondaryLATEX);
-  transform: rotate(0deg);
 }
 
 .color-pickerLATEX {
