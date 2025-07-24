@@ -101,6 +101,17 @@
   }
 }
 
+.katex .vlist-t,
+.katex .vlist-r,
+.katex .vlist,
+.katex .vlist-s,
+.katex .pstrut,
+.katex .frac-line,
+.katex svg,
+.katex .hide-tail {
+  pointer-events: none;
+}
+
 .inputLATEX {
   padding: 8px;
   margin: auto;

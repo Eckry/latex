@@ -152,10 +152,19 @@ function render() {
   });
   chrome.storage.local.set({ equation: textEquation });
   chrome.storage.local.set({ fontSize: $equation.style.fontSize });
-  const $katexElements = document.querySelectorAll(
-    '.mathnormal, .mclose, .mopen, .mrel, .mtight, .mbin, .msupsub'
+  const $katexElementsToHighlight = document.querySelectorAll(
+    '.katex .mathnormal, .katex .mclose, .katex .mopen, .katex .mrel, .katex .mtight, .katex .mbin, .katex .op-symbol'
   );
-  $katexElements.forEach((element) => {
+
+  const $katexElementsToHide = document.querySelectorAll(
+    '.katex .hide-tail, .katex .mord, .katex .vlist-r, .katex .vlist-t, .katex .vlist-t2'
+  );
+  $katexElementsToHide.forEach((element) => {
+    element.style.zIndex = -1;
+  });
+  $katexElementsToHighlight.forEach((element) => {
+    element.style.pointerEvents = 'auto';
+    element.style.zIndex = 1000000;
     element.addEventListener('click', () => {
       element.style.color = hlColor;
     });
