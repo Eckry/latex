@@ -153,7 +153,7 @@ function render() {
   chrome.storage.local.set({ equation: textEquation });
   chrome.storage.local.set({ fontSize: $equation.style.fontSize });
   const $katexElementsToHighlight = document.querySelectorAll(
-    '.katex .mathnormal, .katex .mclose, .katex .mopen, .katex .mrel, .katex .mtight, .katex .mbin, .katex .op-symbol'
+    '.katex .mathnormal, .katex .mclose, .katex .mopen, .katex .mrel, .katex .mtight, .katex .mbin, .katex .op-symbol, .katex .frac-line'
   );
 
   const $katexElementsToHide = document.querySelectorAll(
