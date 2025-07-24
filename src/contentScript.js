@@ -103,6 +103,8 @@ let offsetX;
 let offsetY;
 let initialX;
 let initialY;
+let initialWidth;
+let initialHeight;
 let grabbing = false;
 let resizing = false;
 
@@ -127,25 +129,26 @@ window.addEventListener('load', async () => {
 });
 
 function screenshot() {
-  html2canvas(document.querySelector('.equationLATEX'), {backgroundColor: bgcolor, scale: 3}).then(
-    async (canvas) => {
-      canvas.toBlob(async (blob) => {
-        if (!blob) {
-          console.error('Failed to create blob from canvas');
-          return;
-        }
+  html2canvas(document.querySelector('.equationLATEX'), {
+    backgroundColor: bgcolor,
+    scale: 3,
+  }).then(async (canvas) => {
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        console.error('Failed to create blob from canvas');
+        return;
+      }
 
-        const item = new ClipboardItem({ 'image/png': blob });
+      const item = new ClipboardItem({ 'image/png': blob });
 
-        try {
-          await navigator.clipboard.write([item]);
-          console.log('Image copied to clipboard!');
-        } catch (err) {
-          console.error('Failed to copy image: ', err);
-        }
-      }, 'image/png');
-    }
-  );
+      try {
+        await navigator.clipboard.write([item]);
+        console.log('Image copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy image: ', err);
+      }
+    }, 'image/png');
+  });
 }
 
 function render() {
@@ -256,10 +259,6 @@ function changeHL2Color(e) {
 }
 
 $popup.addEventListener('dragstart', (e) => {
-  var img = new Image();
-  img.src =
-    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-  e.dataTransfer.setDragImage(img, 0, 0);
   if (document.activeElement === $input || (!grabbing && !resizing)) {
     e.preventDefault();
     return;
@@ -269,24 +268,26 @@ $popup.addEventListener('dragstart', (e) => {
   offsetY = e.clientY - rect.top;
   initialX = e.clientX;
   initialY = e.clientY;
+  initialHeight = rect.height;
+  initialWidth = rect.width;
+  var img = new Image();
+  img.src =
+    'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+  e.dataTransfer.setDragImage(img, 0, 0);
 });
 
 $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
 
   if (resizing) {
-    const { width: popupWidth, height } = $popup.getBoundingClientRect();
     const { clientX, clientY } = e;
-    $popup.style.width = `${clientX - initialX + popupWidth}px`;
-    $popup.style.height = `${clientY - initialY + height}px`;
-    initialX = clientX;
-    initialY = clientY;
+    $popup.style.width = `${clientX - initialX + initialWidth}px`;
+    $popup.style.height = `${clientY - initialY + initialHeight}px`;
     const { width } = $equation.getBoundingClientRect();
     let size = parseInt($equation.style.fontSize);
 
     const containerWidth =
       $equationContainer.getBoundingClientRect().width - 100;
-
     if (width > containerWidth) adjust(0, size);
     if (width < containerWidth - 50) adjust(1, size);
   }

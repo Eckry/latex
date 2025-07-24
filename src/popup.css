@@ -18,6 +18,11 @@
   --border-blue: #6fa7b1;
 }
 
+#popup {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 .bodyLATEX {
   height: 50px;
   width: 50px;
@@ -58,7 +63,7 @@
   justify-content: space-between;
   padding: 16px;
   border-radius: 8px;
-  z-index: 10000;
+  z-index: 9999999;
   gap: 16px;
   border: 1px solid var(--border-blue);
 }
