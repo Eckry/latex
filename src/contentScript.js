@@ -151,7 +151,7 @@ window.addEventListener('load', async () => {
   if (fS) {
     $equation.style.fontSize = `${fS}px`;
     fontSize = fS;
-    $fontSize.value = fS
+    $fontSize.value = fS;
   }
 
   if (bg) {
@@ -322,15 +322,28 @@ $popup.addEventListener('dragover', (e) => {
   e.preventDefault();
 
   if (resizing) {
+    const { left, top } = $popup.style;
+    const leftNum = parseFloat(left.slice(0, left.length - 2));
+    const topNum = parseFloat(top.slice(0, left.length - 2));
     const { clientX, clientY } = e;
-    $popup.style.width = `${clientX - initialX + initialWidth}px`;
-    $popup.style.height = `${clientY - initialY + initialHeight}px`;
+    const newWidth = clientX - initialX + initialWidth;
+    const newHeight = clientY - initialY + initialHeight;
+    console.log(initialWidth);
+    console.log(leftNum, newWidth)
+    if (newWidth + leftNum <= window.innerWidth)
+      $popup.style.width = `${newWidth}px`;
+    if (newHeight + topNum <= window.innerHeight)
+      $popup.style.height = `${newHeight}px`;
   }
 
   if (grabbing) {
     const { clientX, clientY } = e;
-    $popup.style.left = `${clientX - offsetX}px`;
-    $popup.style.top = `${clientY - offsetY}px`;
+    const newLeft = clientX - offsetX;
+    const newTop = clientY - offsetY;
+    if (newLeft >= 0 && newLeft + initialWidth <= window.innerWidth)
+      $popup.style.left = `${newLeft}px`;
+    if (newTop >= 0 && newTop + initialHeight <= window.innerHeight)
+      $popup.style.top = `${newTop}px`;
   }
 });
 
