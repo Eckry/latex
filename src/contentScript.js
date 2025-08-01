@@ -302,7 +302,7 @@ document.addEventListener('keydown', (e) => {
     grabbing = !grabbing;
   }
 
-  if (e.key === 'Alt' && !grabbing) {
+  if (e.key === 'Shift' && !grabbing) {
     if (resizing) {
       $popup.style.cursor = 'crosshair';
     } else $popup.style.cursor = 'se-resize';
