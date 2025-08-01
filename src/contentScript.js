@@ -119,8 +119,8 @@ let offsetX;
 let offsetY;
 let initialX;
 let initialY;
-let initialWidth;
-let initialHeight;
+let initialWidth = 500;
+let initialHeight = 500;
 let grabbing = false;
 let resizing = false;
 let fontSize = 100;
@@ -310,8 +310,6 @@ $popup.addEventListener('dragstart', (e) => {
   offsetY = e.clientY - rect.top;
   initialX = e.clientX;
   initialY = e.clientY;
-  initialHeight = rect.height;
-  initialWidth = rect.width;
   var img = new Image();
   img.src =
     'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
@@ -328,8 +326,6 @@ $popup.addEventListener('dragover', (e) => {
     const { clientX, clientY } = e;
     const newWidth = clientX - initialX + initialWidth;
     const newHeight = clientY - initialY + initialHeight;
-    console.log(initialWidth);
-    console.log(leftNum, newWidth)
     if (newWidth + leftNum <= window.innerWidth)
       $popup.style.width = `${newWidth}px`;
     if (newHeight + topNum <= window.innerHeight)
@@ -349,6 +345,10 @@ $popup.addEventListener('dragover', (e) => {
 
 $popup.addEventListener('dragend', (e) => {
   e.preventDefault();
+  const lastWidth = $popup.style.width
+  const lastHeight = $popup.style.height
+  initialWidth = parseFloat(lastWidth.slice(0, $popup.style.width.length - 2));
+  initialHeight = parseFloat(lastHeight.slice(0, $popup.style.height.length - 2));
 });
 
 document.addEventListener('keydown', (e) => {
