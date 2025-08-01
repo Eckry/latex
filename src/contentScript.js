@@ -126,9 +126,20 @@ let fontSize = 100;
 let textEquation = '';
 
 window.addEventListener('load', async () => {
-  const { equation, fontSize } = await chrome.storage.local.get([
+  const {
+    equation,
+    fontSize,
+    bgcolor: bg,
+    fontColor: fC,
+    hlColor: hC,
+    hl2Color: h2C,
+  } = await chrome.storage.local.get([
     'equation',
     'fontSize',
+    'bgcolor',
+    'fontColor',
+    'hlColor',
+    'hl2Color',
   ]);
 
   if (equation) {
@@ -136,6 +147,30 @@ window.addEventListener('load', async () => {
     textEquation = equation;
   }
   if (fontSize) $equation.style.fontSize = fontSize;
+
+  if (bg) {
+    bgcolor = bg;
+    $colorPicker.value = bg;
+    $popup.style.backgroundColor = bgcolor + '74';
+    $input.style.backgroundColor = bgcolor;
+  }
+
+  if (fC) {
+    fontColor = fC;
+    $colorPickerFont.value = fC;
+    $input.style.color = fontColor;
+    $equation.style.color = fontColor;
+  }
+
+  if (hC) {
+    hlColor = hC;
+    $colorPickerHL.value = hC;
+  }
+
+  if (h2C) {
+    hl2Color = h2C;
+    $colorPickerHL2.value = h2C;
+  }
   render();
 });
 
@@ -239,21 +274,24 @@ function changeBackgroundColor(e) {
   bgcolor = e.target.value;
   $popup.style.backgroundColor = bgcolor + '74';
   $input.style.backgroundColor = bgcolor;
-  $input.style.color = fontColor;
+  chrome.storage.local.set({ bgcolor });
 }
 
 function changeFontColor(e) {
   fontColor = e.target.value;
   $input.style.color = fontColor;
   $equation.style.color = fontColor;
+  chrome.storage.local.set({ fontColor });
 }
 
 function changeHLColor(e) {
   hlColor = e.target.value;
+  chrome.storage.local.set({ hlColor });
 }
 
 function changeHL2Color(e) {
   hl2Color = e.target.value;
+  chrome.storage.local.set({ hl2Color });
 }
 
 $popup.addEventListener('dragstart', (e) => {
