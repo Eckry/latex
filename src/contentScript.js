@@ -295,22 +295,19 @@ $popup.addEventListener('dragend', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-  if (grabbing || resizing) return;
-  if (e.key === 'Control') {
-    $popup.style.cursor = 'grab';
-    grabbing = true;
+  if (e.key === 'Control' && !resizing) {
+    if (grabbing) {
+      $popup.style.cursor = 'crosshair';
+    } else $popup.style.cursor = 'grab';
+    grabbing = !grabbing;
   }
 
-  if (e.key === 'Alt') {
-    $popup.style.cursor = 'se-resize';
-    resizing = true;
+  if (e.key === 'Alt' && !grabbing) {
+    if (resizing) {
+      $popup.style.cursor = 'crosshair';
+    } else $popup.style.cursor = 'se-resize';
+    resizing = !resizing;
   }
-});
-
-document.addEventListener('keyup', (e) => {
-  $popup.style.cursor = 'crosshair';
-  if (e.key === 'Control') grabbing = false;
-  if (e.key === 'Alt') resizing = false;
 });
 
 function readFontSize() {
