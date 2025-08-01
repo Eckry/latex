@@ -128,7 +128,7 @@ let textEquation = '';
 window.addEventListener('load', async () => {
   const {
     equation,
-    fontSize,
+    fontSize: fS,
     bgcolor: bg,
     fontColor: fC,
     hlColor: hC,
@@ -146,7 +146,11 @@ window.addEventListener('load', async () => {
     $input.value = equation;
     textEquation = equation;
   }
-  if (fontSize) $equation.style.fontSize = fontSize;
+  if (fS) {
+    $equation.style.fontSize = `${fS}px`;
+    fontSize = fS;
+    $fontSize.value = fS
+  }
 
   if (bg) {
     bgcolor = bg;
@@ -361,7 +365,7 @@ function readFontSize() {
   }
   fontSize = fontSizeNumber;
   $equation.style.fontSize = `${fontSizeNumber}px`;
-  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+  chrome.storage.local.set({ fontSize: fontSizeNumber });
 }
 
 function increaseFontSize() {
@@ -369,7 +373,7 @@ function increaseFontSize() {
   fontSize++;
   $fontSize.value = fontSize;
   $equation.style.fontSize = `${fontSize}px`;
-  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+  chrome.storage.local.set({ fontSize: fontSize });
 }
 
 function decreaseFontSize() {
@@ -377,7 +381,7 @@ function decreaseFontSize() {
   fontSize--;
   $fontSize.value = fontSize;
   $equation.style.fontSize = `${fontSize}px`;
-  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+  chrome.storage.local.set({ fontSize: fontSize });
 }
 
 $input.addEventListener('input', updateEquation);
