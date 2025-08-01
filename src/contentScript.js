@@ -326,6 +326,7 @@ function readFontSize() {
   }
   fontSize = fontSizeNumber;
   $equation.style.fontSize = `${fontSizeNumber}px`;
+  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
 }
 
 function increaseFontSize() {
