@@ -21,6 +21,8 @@ $popup.style.display = 'none';
 $popup.classList.add('boxLATEX');
 $popup.style.left = '50px';
 $popup.style.top = '50px';
+$popup.style.width = '500px';
+$popup.style.height = '500px';
 $popup.draggable = true;
 
 const $input = document.createElement('input');
