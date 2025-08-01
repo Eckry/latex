@@ -132,11 +132,33 @@
   width: 100%;
 }
 
+.font-size-containerLATEX {
+  display: flex;
+  justify-content: center;
+  width: 60px;
+  height: 20px;
+}
+
+.font-size-inputLATEX {
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  outline: none;
+  border: none;
+  padding: 4px;
+}
+
+.font-size-upLATEX {
+  height: 100%;
+  width: 100%;
+  background-color: red;
+}
+
 .equationLATEX {
   font-size: 100px;
   display: inline;
-  padding: 16px;
   user-select: none;
+  margin: 0;
 }
 
 .footerLATEX {

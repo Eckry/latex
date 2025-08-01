@@ -10,6 +10,7 @@ const MAIN_BG_COLOR = '#21303C';
 const MAIN_FONT_COLOR = '#B4FFB3';
 const MAIN_HL_COLOR = '#c4ac25';
 const MAIN_HL2_COLOR = '#a0a7d2';
+const fontSizeLimit = 150;
 
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
@@ -50,6 +51,19 @@ const $screenshot = document.createElement('button');
 $screenshot.innerHTML = `<svg width="32"height="32"viewBox="0 0 24 24"fill="none"stroke="currentColor"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 8v-2a2 2 0 0 1 2 -2h2" /><path d="M4 16v2a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v2" /><path d="M16 20h2a2 2 0 0 0 2 -2v-2" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>`;
 $screenshot.classList.add('screenshotLATEX');
 
+const $fontSizeContainer = document.createElement('div');
+$fontSizeContainer.classList.add('font-size-containerLATEX');
+
+const $fontSizeUp = document.createElement('button');
+$fontSizeUp.classList.add('font-size-upLATEX');
+
+const $fontSizeDown = document.createElement('button');
+$fontSizeDown.classList.add('font-size-upLATEX');
+
+const $fontSize = document.createElement('input');
+$fontSize.value = 100;
+$fontSize.classList.add('font-size-inputLATEX');
+
 const $close = document.createElement('button');
 $close.innerHTML = `<svg width="32" height="32"viewBox="0 0 24 24"fill="none"stroke="currentColor"stroke-width="2"  stroke-linecap="round"stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>`;
 $close.classList.add('closeLATEX');
@@ -83,11 +97,15 @@ $footer.appendChild($close);
 $footer.appendChild($clean);
 $footer.appendChild($copy);
 $footer.appendChild($screenshot);
+$footer.appendChild($fontSizeContainer);
 $footer.appendChild($colorPicker);
 $footer.appendChild($colorPickerFont);
 $footer.appendChild($colorPickerHL);
 $footer.appendChild($colorPickerHL2);
 $popup.appendChild($footer);
+$fontSizeContainer.appendChild($fontSizeDown);
+$fontSizeContainer.appendChild($fontSize);
+$fontSizeContainer.appendChild($fontSizeUp);
 
 document.body.appendChild($popup);
 
@@ -103,6 +121,7 @@ let initialWidth;
 let initialHeight;
 let grabbing = false;
 let resizing = false;
+let fontSize = 100;
 
 let textEquation = '';
 
@@ -151,7 +170,6 @@ function render() {
     displayMode: true,
   });
   chrome.storage.local.set({ equation: textEquation });
-  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
   const $katexElementsToHighlight = document.querySelectorAll(
     '.katex .mathnormal, .katex .mclose, .katex .mopen, .katex .mrel, .katex .mtight, .katex .mbin, .katex .op-symbol, .katex .frac-line'
   );
@@ -211,30 +229,8 @@ function togglePopup() {
   }
 }
 
-function adjust(n, size) {
-  if (n === 0) size -= (size * 5) / 100;
-  else if (size < 100) size += (size * 5) / 100;
-
-  $equation.style.fontSize = size + 'px';
-  const newWidth = $equation.getBoundingClientRect().width;
-  const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
-
-  if (newWidth > containerWidth && n === 0) return adjust(n, size);
-  if (newWidth < containerWidth - 50 && n === 1 && size < 100)
-    return adjust(n, size);
-  return;
-}
-
 function updateEquation(e) {
   textEquation = e.target.value;
-
-  const { width } = $equation.getBoundingClientRect();
-  let size = parseInt($equation.style.fontSize);
-
-  const containerWidth = $equationContainer.getBoundingClientRect().width - 100;
-
-  if (width > containerWidth) adjust(0, size);
-  if (width < containerWidth - 50) adjust(1, size);
 
   render();
 }
@@ -285,13 +281,6 @@ $popup.addEventListener('dragover', (e) => {
     const { clientX, clientY } = e;
     $popup.style.width = `${clientX - initialX + initialWidth}px`;
     $popup.style.height = `${clientY - initialY + initialHeight}px`;
-    const { width } = $equation.getBoundingClientRect();
-    let size = parseInt($equation.style.fontSize);
-
-    const containerWidth =
-      $equationContainer.getBoundingClientRect().width - 100;
-    if (width > containerWidth) adjust(0, size);
-    if (width < containerWidth - 50) adjust(1, size);
   }
 
   if (grabbing) {
@@ -324,7 +313,41 @@ document.addEventListener('keyup', (e) => {
   if (e.key === 'Alt') resizing = false;
 });
 
+function readFontSize() {
+  const fontSizeInput = $fontSize.value;
+  if (isNaN(Number(fontSizeInput))) {
+    $fontSize.value = `${fontSize}`;
+    return;
+  }
+  let fontSizeNumber = Number(fontSizeInput);
+  if (fontSizeNumber >= fontSizeLimit) {
+    fontSizeNumber = fontSizeLimit;
+    $fontSize.value = fontSizeLimit;
+  }
+  fontSize = fontSizeNumber;
+  $equation.style.fontSize = `${fontSizeNumber}px`;
+}
+
+function increaseFontSize() {
+  if (fontSize >= 150) return;
+  fontSize++;
+  $fontSize.value = fontSize;
+  $equation.style.fontSize = `${fontSize}px`;
+  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+}
+
+function decreaseFontSize() {
+  if (fontSize < 0) return;
+  fontSize--;
+  $fontSize.value = fontSize;
+  $equation.style.fontSize = `${fontSize}px`;
+  chrome.storage.local.set({ fontSize: $equation.style.fontSize });
+}
+
 $input.addEventListener('input', updateEquation);
+$fontSize.addEventListener('input', readFontSize);
+$fontSizeUp.addEventListener('click', increaseFontSize);
+$fontSizeDown.addEventListener('click', decreaseFontSize);
 $copy.addEventListener('click', copy);
 $screenshot.addEventListener('click', screenshot);
 $clean.addEventListener('click', clean);
