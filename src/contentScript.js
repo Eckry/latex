@@ -70,6 +70,9 @@ const $close = document.createElement('button');
 $close.innerHTML = `<svg width="32" height="32"viewBox="0 0 24 24"fill="none"stroke="currentColor"stroke-width="2"  stroke-linecap="round"stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>`;
 $close.classList.add('closeLATEX');
 
+const $transparency = document.createElement('button');
+$transparency.classList.add('transparencyLATEX');
+
 const $colorPicker = document.createElement('input');
 $colorPicker.type = 'color';
 $colorPicker.value = MAIN_BG_COLOR;
@@ -90,6 +93,7 @@ $colorPickerHL2.type = 'color';
 $colorPickerHL2.value = MAIN_HL2_COLOR;
 $colorPickerHL2.classList.add('color-pickerLATEX');
 
+
 $popup.style.backgroundColor = MAIN_BG_COLOR + '74';
 
 $popup.appendChild($input);
@@ -99,6 +103,7 @@ $footer.appendChild($close);
 $footer.appendChild($clean);
 $footer.appendChild($copy);
 $footer.appendChild($screenshot);
+$footer.appendChild($transparency);
 $footer.appendChild($fontSizeContainer);
 $footer.appendChild($colorPicker);
 $footer.appendChild($colorPickerFont);
@@ -111,6 +116,7 @@ $fontSizeContainer.appendChild($fontSizeUp);
 
 document.body.appendChild($popup);
 
+let transparency = 1;
 let bgcolor = $colorPicker.value;
 let fontColor = $colorPickerFont.value;
 let hlColor = $colorPickerHL.value;
@@ -399,6 +405,18 @@ function decreaseFontSize() {
   chrome.storage.local.set({ fontSize: fontSize });
 }
 
+
+
+function toggleTransparency() {
+  if(transparency) {
+    $popup.style.backgroundColor = bgcolor;
+  } else {
+    $popup.style.backgroundColor = bgcolor + '74';
+  }
+  $transparency.classList.toggle('transparency-activeLATEX');
+  transparency = !transparency;
+}
+
 $input.addEventListener('input', updateEquation);
 $fontSize.addEventListener('input', readFontSize);
 $fontSizeUp.addEventListener('click', increaseFontSize);
@@ -411,5 +429,6 @@ $colorPicker.addEventListener('input', changeBackgroundColor);
 $colorPickerFont.addEventListener('input', changeFontColor);
 $colorPickerHL.addEventListener('input', changeHLColor);
 $colorPickerHL2.addEventListener('input', changeHL2Color);
+$transparency.addEventListener('click', toggleTransparency);
 
 chrome.runtime.onMessage.addListener(togglePopup);

@@ -169,7 +169,8 @@
 .copyLATEX,
 .screenshotLATEX,
 .cleanLATEX,
-.closeLATEX {
+.closeLATEX,
+.transparencyLATEX {
   outline: none;
   border: none;
   background-color: transparent;
@@ -192,6 +193,18 @@
 .closeLATEX:hover {
   scale: 1.1;
   background-color: var(--light-primaryLATEX);
+}
+
+.transparencyLATEX {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--tertiaryLATEX);
+  background-color: var(--tertiaryLATEX);
+  border-radius: 8px;
+}
+
+.transparency-activeLATEX {
+  background-color: transparent;
 }
 
 .color-pickerLATEX {
