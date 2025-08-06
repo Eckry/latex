@@ -284,7 +284,7 @@ function updateEquation(e) {
 
 function changeBackgroundColor(e) {
   bgcolor = e.target.value;
-  $popup.style.backgroundColor = bgcolor + '74';
+  $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
   $input.style.backgroundColor = bgcolor;
   chrome.storage.local.set({ bgcolor });
 }
