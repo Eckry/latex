@@ -91,6 +91,26 @@ $colorPickerHL2.type = 'color';
 $colorPickerHL2.value = MAIN_HL2_COLOR;
 $colorPickerHL2.classList.add('color-pickerLATEX');
 
+const $tooltipClose = document.createElement('div');
+const $tooltipTransparency = document.createElement('div');
+const $tooltipErase = document.createElement('div');
+const $tooltipCopy = document.createElement('div');
+const $tooltipScreenshot = document.createElement('div');
+$tooltipClose.classList.add('tooltipLATEX');
+$tooltipTransparency.classList.add('tooltipLATEX');
+$tooltipCopy.classList.add('tooltipLATEX');
+$tooltipErase.classList.add('tooltipLATEX');
+$tooltipScreenshot.classList.add('tooltipLATEX');
+$tooltipTransparency.textContent = "Transparency";
+$tooltipClose.textContent = "Close";
+$tooltipCopy.textContent = "Copy";
+$tooltipErase.textContent = "Erase";
+$tooltipScreenshot.textContent = "Screenshot";
+$screenshot.appendChild($tooltipScreenshot);
+$copy.appendChild($tooltipCopy);
+$clean.appendChild($tooltipErase);
+$close.appendChild($tooltipClose);
+$transparency.appendChild($tooltipTransparency);
 
 $popup.style.backgroundColor = MAIN_BG_COLOR + '74';
 
