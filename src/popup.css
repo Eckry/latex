@@ -175,7 +175,7 @@
   border: none;
   background-color: transparent;
   padding: 4px;
-  color: var(--tertiaryLATEX);
+  color: var(--border-blue);
   cursor: pointer;
   transition: 0.25s ease-in-out;
   position: relative;
