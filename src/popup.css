@@ -110,13 +110,14 @@
 }
 
 .inputLATEX {
-  padding: 8px;
-  margin: 0 auto;
+  display: block;
+  width: 90%;
+  padding: 4px 8px;
   text-align: center;
   font-size: 20px;
-  width: 90%;
   outline: none;
-  border: none;
+  border: 1px solid var(--border-blue);
+  background-color: var(--primaryLATEX);
   color: var(--tertiaryLATEX);
   border-radius: 4px;
 }
@@ -164,6 +165,10 @@
   justify-content: center;
   align-items: center;
   gap: 12px;
+  border-radius: 8px;
+  padding: 4px;
+  border: 1px solid var(--border-blue);
+  background-color: var(--primaryLATEX);
 }
 
 .copyLATEX,

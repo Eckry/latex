@@ -27,8 +27,6 @@ $popup.draggable = true;
 
 const $input = document.createElement('input');
 $input.classList.add('inputLATEX');
-$input.style.backgroundColor = MAIN_BG_COLOR;
-$input.style.color = MAIN_FONT_COLOR;
 
 const $equationContainer = document.createElement('div');
 $equationContainer.classList.add('equation-containerLATEX');
@@ -163,8 +161,7 @@ window.addEventListener('load', async () => {
   if (bg) {
     bgcolor = bg;
     $colorPicker.value = bg;
-    $popup.style.backgroundColor = bgcolor + '74';
-    $input.style.backgroundColor = bgcolor;
+    $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
   }
 
   if (fC) {
@@ -285,13 +282,11 @@ function updateEquation(e) {
 function changeBackgroundColor(e) {
   bgcolor = e.target.value;
   $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
-  $input.style.backgroundColor = bgcolor;
   chrome.storage.local.set({ bgcolor });
 }
 
 function changeFontColor(e) {
   fontColor = e.target.value;
-  $input.style.color = fontColor;
   $equation.style.color = fontColor;
   chrome.storage.local.set({ fontColor });
 }
