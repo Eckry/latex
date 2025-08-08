@@ -18,5 +18,11 @@
       "js": ["contentScript.js"],
       "css": ["popup.css"]
     }
+  ],
+    "web_accessible_resources": [
+    {
+      "resources": ["test.html"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }

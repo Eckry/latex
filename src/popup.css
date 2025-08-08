@@ -120,7 +120,7 @@
 .tooltipLATEX {
   position: absolute;
   left: 50%;
-  top: -100%;
+  bottom: -100%;
   transform: translateX(-50%);
   display: none;
   border: 1px solid var(--border-blue);
@@ -233,7 +233,10 @@
   background-color: transparent;
 }
 
-.color-pickerLATEX {
+.color-picker-bgLATEX,
+.color-picker-fontLATEX,
+.color-picker-hlLATEX,
+.color-picker-hl2LATEX  {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -244,11 +247,19 @@
   border: none;
   cursor: pointer;
 }
-.color-pickerLATEX::-webkit-color-swatch {
+
+.color-picker-bgLATEX::-webkit-color-swatch,
+.color-picker-fontLATEX::-webkit-color-swatch,
+.color-picker-hlLATEX::-webkit-color-swatch,
+.color-picker-hl2LATEX::-webkit-color-swatch {
   border-radius: 7px;
   border: 1px solid var(--tertiaryLATEX);
 }
-.color-pickerLATEX::-moz-color-swatch {
+
+.color-picker-bgLATEX::-moz-color-swatch,
+.color-picker-fontLATEX::-moz-color-swatch,
+.color-picker-hlLATEX::-moz-color-swatch,
+.color-picker-hl2LATEX::-moz-color-swatch {
   border-radius: 7px;
   border: 1px solid var(--tertiaryLATEX);
 }
