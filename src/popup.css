@@ -169,7 +169,7 @@
   padding: 4px;
 }
 
-.font-size-upLATEX, font-size-downLATEX {
+.font-size-upLATEX, .font-size-downLATEX {
   height: 100%;
   width: 100%;
   background-color: red;

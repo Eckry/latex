@@ -14,7 +14,7 @@ const fontSizeLimit = 150;
 
 // Magic numbers to center the screenshot on html2canvas
 const CANVAS_OFFSET_X = -8;
-const CANVAS_OFFSET_Y = -35;
+const CANVAS_OFFSET_Y = -48;
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
 );
