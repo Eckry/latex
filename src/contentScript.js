@@ -51,7 +51,7 @@ fetch(chrome.runtime.getURL('test.html'))
   const $copy = document.querySelector('.copyLATEX');
   const $screenshot = document.querySelector('.screenshotLATEX');
   const $fontSizeUp = document.querySelector('.font-size-upLATEX');
-  const $fontSizeDown = document.querySelector('.font-size-upLATEX');
+  const $fontSizeDown = document.querySelector('.font-size-downLATEX');
   const $close = document.querySelector('.closeLATEX');
   const $transparency = document.querySelector('.transparencyLATEX');
   const $equation = document.querySelector('.equationLATEX');
@@ -327,8 +327,6 @@ fetch(chrome.runtime.getURL('test.html'))
     chrome.storage.local.set({ fontSize: fontSize });
   }
 
-
-
   function toggleTransparency() {
     if(transparency) {
       $popup.style.backgroundColor = bgcolor;
@@ -338,11 +336,42 @@ fetch(chrome.runtime.getURL('test.html'))
     $transparency.classList.toggle('transparency-activeLATEX');
     transparency = !transparency;
   }
+  function readFontSize() {
+    const fontSizeInput = $fontSize.value;
+    if (isNaN(Number(fontSizeInput))) {
+      $fontSize.value = `${fontSize}`;
+      return;
+    }
+    let fontSizeNumber = Number(fontSizeInput);
+    if (fontSizeNumber >= fontSizeLimit) {
+      fontSizeNumber = fontSizeLimit;
+      $fontSize.value = fontSizeLimit;
+    }
+    fontSize = fontSizeNumber;
+    $fontSize.value = fontSize;
+    $equation.style.fontSize = `${fontSize}px`;
+    chrome.storage.local.set({ fontSize: fontSizeNumber });
+  }
 
+  function increaseFontSize() {
+    if (fontSize >= 150) return;
+    fontSize++;
+    $fontSize.value = fontSize;
+    $equation.style.fontSize = `${fontSize}px`;
+    chrome.storage.local.set({ fontSize: fontSize });
+  }
+
+  function decreaseFontSize() {
+    if (fontSize < 0) return;
+    fontSize--;
+    $fontSize.value = fontSize;
+    $equation.style.fontSize = `${fontSize}px`;
+    chrome.storage.local.set({ fontSize: fontSize });
+  }
   $input.addEventListener('input', updateEquation);
   $fontSize.addEventListener('input', readFontSize);
-  $fontSizeUp.addEventListener('click', increaseFontSize);
-  $fontSizeDown.addEventListener('click', decreaseFontSize);
+  $fontSizeUp.addEventListener('click', decreaseFontSize);
+  $fontSizeDown.addEventListener('click', increaseFontSize);
   $copy.addEventListener('click', copy);
   $screenshot.addEventListener('click', screenshot);
   $clean.addEventListener('click', clean);
