@@ -113,7 +113,7 @@
 .screenshotLATEX:hover .tooltipLATEX,
 .cleanLATEX:hover .tooltipLATEX,
 .closeLATEX:hover .tooltipLATEX,
-.transparencyLATEX:hover .tooltipLATEX {
+.transparency-labelLATEX:hover .tooltipLATEX {
   display: block;
 }
 
@@ -123,8 +123,10 @@
   bottom: -100%;
   transform: translateX(-50%);
   display: none;
+  color: var(--border-blue);
   border: 1px solid var(--border-blue);
   border-radius: 4px;
+  background-color: var(--primaryLATEX);
   padding: 4px;
   font-size: 12px;
 }
@@ -195,7 +197,7 @@
 .screenshotLATEX,
 .cleanLATEX,
 .closeLATEX,
-.transparencyLATEX {
+.transparency-labelLATEX {
   outline: none;
   border: none;
   background-color: transparent;
@@ -216,21 +218,30 @@
 .copyLATEX:hover,
 .screenshotLATEX:hover,
 .cleanLATEX:hover,
-.closeLATEX:hover {
+.closeLATEX:hover,
+.transparency-labelLATEX:hover {
   scale: 1.1;
   background-color: var(--light-primaryLATEX);
 }
 
-.transparencyLATEX {
-  width: 25px;
-  height: 25px;
-  border: 2px solid var(--tertiaryLATEX);
-  background-color: var(--tertiaryLATEX);
-  border-radius: 8px;
+.transparency-labelLATEX {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.transparency-activeLATEX {
-  background-color: transparent;
+.transparencyLATEX {
+  display: none;
+}
+
+.transparencyLATEX ~ svg {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.transparencyLATEX:checked ~ svg{
+  border: 1px solid var(--border-blue);
 }
 
 .color-picker-bgLATEX,
