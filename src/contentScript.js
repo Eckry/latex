@@ -12,6 +12,9 @@ const MAIN_HL_COLOR = '#c4ac25';
 const MAIN_HL2_COLOR = '#a0a7d2';
 const fontSizeLimit = 150;
 
+// Magic numbers to center the screenshot on html2canvas
+const CANVAS_OFFSET_X = -8;
+const CANVAS_OFFSET_Y = -35;
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
 );
@@ -120,9 +123,14 @@ fetch(chrome.runtime.getURL('test.html'))
     render();
   });
     function screenshot() {
-    html2canvas(document.querySelector('.equationLATEX'), {
+    const { width, height } = $equation.getBoundingClientRect()
+    html2canvas($equation, {
       backgroundColor: bgcolor,
       scale: 3,
+      width: width,
+      height: height,
+      x: CANVAS_OFFSET_X,
+      y: CANVAS_OFFSET_Y
     }).then(async (canvas) => {
       canvas.toBlob(async (blob) => {
         if (!blob) {

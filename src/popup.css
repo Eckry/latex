@@ -169,7 +169,7 @@
   padding: 4px;
 }
 
-.font-size-upLATEX, .font-size-downLATEX {
+.font-size-upLATEX, font-size-downLATEX {
   height: 100%;
   width: 100%;
   background-color: red;
@@ -179,7 +179,7 @@
   font-size: 100px;
   display: inline;
   user-select: none;
-  margin: 0;
+  padding: 4px 8px;
 }
 
 .footerLATEX {
