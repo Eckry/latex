@@ -47,12 +47,9 @@ fetch(chrome.runtime.getURL('test.html'))
   const $input = document.querySelector('.inputLATEX');
   $input.style.color = fontColor;
   $input.value = textEquation;
-  const $equationContainer = document.querySelector('.equation-containerLATEX');
-  const $footer = document.querySelector('.footerLATEX');
   const $clean = document.querySelector('.cleanLATEX');
   const $copy = document.querySelector('.copyLATEX');
   const $screenshot = document.querySelector('.screenshotLATEX');
-  const $fontSizeContainer = document.querySelector('.font-size-containerLATEX');
   const $fontSizeUp = document.querySelector('.font-size-upLATEX');
   const $fontSizeDown = document.querySelector('.font-size-upLATEX');
   const $close = document.querySelector('.closeLATEX');
@@ -60,11 +57,6 @@ fetch(chrome.runtime.getURL('test.html'))
   const $equation = document.querySelector('.equationLATEX');
   $equation.style.fontSize = `${fontSize}px`;
   $equation.style.color = fontColor;
-  const $tooltipClose = document.querySelector('.tooltipLATEX');
-  const $tooltipTransparency = document.querySelector('.tooltipLATEX');
-  const $tooltipErase = document.querySelector('.tooltipLATEX');
-  const $tooltipCopy = document.querySelector('.tooltipLATEX');
-  const $tooltipScreenshot = document.querySelector('.tooltipLATEX');
   const $fontSize = document.querySelector('.font-size-inputLATEX');
   $fontSize.value = fontSize;
   const $colorPicker = document.querySelector('.color-picker-bgLATEX');
