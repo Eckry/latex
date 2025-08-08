@@ -224,6 +224,14 @@
   background-color: var(--light-primaryLATEX);
 }
 
+.copyLATEX:active,
+.screenshotLATEX:active,
+.cleanLATEX:active,
+.closeLATEX:active,
+.transparency-labelLATEX:active {
+  scale: 1;
+}
+
 .transparency-labelLATEX {
   display: flex;
   justify-content: center;
