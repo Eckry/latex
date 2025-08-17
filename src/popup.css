@@ -163,6 +163,11 @@
   border: none;
   outline: none;
   color: white;
+  cursor: pointer;
+}
+
+.font-size-upLATEX:hover, .font-size-downLATEX:hover {
+  color: var(--border-blue);
 }
 
 .equationLATEX {
