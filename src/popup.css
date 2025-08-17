@@ -109,28 +109,6 @@
   pointer-events: none;
 }
 
-.copyLATEX:hover .tooltipLATEX,
-.screenshotLATEX:hover .tooltipLATEX,
-.cleanLATEX:hover .tooltipLATEX,
-.closeLATEX:hover .tooltipLATEX,
-.transparency-labelLATEX:hover .tooltipLATEX {
-  display: block;
-}
-
-.tooltipLATEX {
-  position: absolute;
-  left: 50%;
-  bottom: -100%;
-  transform: translateX(-50%);
-  display: none;
-  color: var(--border-blue);
-  border: 1px solid var(--border-blue);
-  border-radius: 4px;
-  background-color: var(--primaryLATEX);
-  padding: 4px;
-  font-size: 12px;
-}
-
 .inputLATEX {
   display: block;
   width: 90%;
@@ -139,7 +117,7 @@
   font-size: 20px;
   outline: none;
   background-color: var(--primaryLATEX);
-  bordeR: none;
+  border: none;
   color: var(--tertiaryLATEX);
   border-radius: 4px;
 }
@@ -156,23 +134,30 @@
 .font-size-containerLATEX {
   display: flex;
   justify-content: center;
-  width: 60px;
-  height: 20px;
+  align-items: center;
+  width: min-content;
+  z-index: 10001;
+  border: 1px solid var(--border-blue);
+  border-radius: 6px;
+  position: relative;
+  padding: 4px;
 }
 
 .font-size-inputLATEX {
-  width: 100%;
+  width: 20px;
   text-align: center;
   font-size: 10px;
   outline: none;
   border: none;
-  padding: 4px;
+  background-color: transparent;
 }
 
 .font-size-upLATEX, .font-size-downLATEX {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
-  background-color: red;
 }
 
 .equationLATEX {
@@ -204,7 +189,6 @@
   color: var(--border-blue);
   cursor: pointer;
   transition: 0.25s ease-in-out;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
