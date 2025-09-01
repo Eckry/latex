@@ -10,8 +10,7 @@ const PADDING = 40;
 const MAIN_FONT_COLOR = '#B4FFB3';
 const MAIN_BG_COLOR = '#21303C';
 const MAIN_HL_COLOR = '#c4ac25';
-const MAIN_HL2_COLOR = '#a0a7d2';
-const fontSizeLimit = 150;
+const MAIN_HL2_COLOR = '#a0a7d2'; const fontSizeLimit = 150;
 
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
@@ -123,8 +122,9 @@ fetch(chrome.runtime.getURL('test.html'))
     function screenshot() {
       const katexElement = document.querySelector(".katex-display")
       const { width, height } = katexElement.getBoundingClientRect()
+      console.log(transparency);
       html2canvas(katexElement, {
-        backgroundColor: bgcolor,
+        backgroundColor: transparency ? null : bgcolor,
         scale: 3,
         width: width + PADDING,
         height: height + PADDING,
