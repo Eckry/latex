@@ -50,6 +50,7 @@ fetch(chrome.runtime.getURL('test.html'))
     const $clean = document.querySelector('.cleanLATEX');
     const $copy = document.querySelector('.copyLATEX');
     const $screenshot = document.querySelector('.screenshotLATEX');
+    const $saveScreenshot = document.querySelector('.saveScreenshotLATEX');
     const $fontSizeUp = document.querySelector('.font-size-upLATEX');
     const $fontSizeDown = document.querySelector('.font-size-downLATEX');
     const $close = document.querySelector('.closeLATEX');
@@ -119,10 +120,10 @@ fetch(chrome.runtime.getURL('test.html'))
       }
       render();
     });
-    function screenshot() {
-      const katexElement = document.querySelector(".katex-display")
-      const { width, height } = katexElement.getBoundingClientRect()
-      console.log(transparency);
+    function screenshot(save) {
+      const katexElement = document.querySelector(".katex-display");
+      const { width, height } = katexElement.getBoundingClientRect();
+
       html2canvas(katexElement, {
         backgroundColor: transparency ? null : bgcolor,
         scale: 3,
@@ -131,22 +132,39 @@ fetch(chrome.runtime.getURL('test.html'))
         x: -PADDING / 2,
         y: -PADDING / 2
       }).then(async (canvas) => {
-        canvas.toBlob(async (blob) => {
-          if (!blob) {
-            console.error('Failed to create blob from canvas');
-            return;
-          }
+        if (save) {
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              console.error('Failed to create blob from canvas');
+              return;
+            }
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'screenshot.png';
+            link.click();
+            URL.revokeObjectURL(url);
+            console.log('Image downloaded!');
+          }, 'image/png');
+        } else {
+          // Copy to clipboard
+          canvas.toBlob(async (blob) => {
+            if (!blob) {
+              console.error('Failed to create blob from canvas');
+              return;
+            }
 
-          const item = new ClipboardItem({ 'image/png': blob });
+            const item = new ClipboardItem({ 'image/png': blob });
 
-          try {
-            await navigator.clipboard.write([item]);
-            audio.play();
-            console.log('Image copied to clipboard!');
-          } catch (err) {
-            console.error('Failed to copy image: ', err);
-          }
-        }, 'image/png');
+            try {
+              await navigator.clipboard.write([item]);
+              audio.play();
+              console.log('Image copied to clipboard!');
+            } catch (err) {
+              console.error('Failed to copy image: ', err);
+            }
+          }, 'image/png');
+        }
       });
     }
 
@@ -380,7 +398,8 @@ fetch(chrome.runtime.getURL('test.html'))
     $fontSizeUp.addEventListener('click', decreaseFontSize);
     $fontSizeDown.addEventListener('click', increaseFontSize);
     $copy.addEventListener('click', copy);
-    $screenshot.addEventListener('click', screenshot);
+    $screenshot.addEventListener('click', () => screenshot(false));
+    $saveScreenshot.addEventListener('click', () => screenshot(true));
     $clean.addEventListener('click', clean);
     $close.addEventListener('click', hidePopup);
     $colorPicker.addEventListener('input', changeBackgroundColor);

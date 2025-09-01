@@ -194,6 +194,7 @@
 .screenshotLATEX,
 .cleanLATEX,
 .closeLATEX,
+.saveScreenshotLATEX,
 .transparency-labelLATEX {
   outline: none;
   border: none;
@@ -215,6 +216,7 @@
 .screenshotLATEX:hover,
 .cleanLATEX:hover,
 .closeLATEX:hover,
+.saveScreenshotLATEX:hover,
 .transparency-labelLATEX:hover {
   scale: 1.1;
   background-color: var(--light-primaryLATEX);
@@ -222,6 +224,7 @@
 
 .copyLATEX:active,
 .screenshotLATEX:active,
+.saveScreenshotLATEX:active,
 .cleanLATEX:active,
 .closeLATEX:active,
 .transparency-labelLATEX:active {
