@@ -153,7 +153,8 @@
   color: white;
 }
 
-.font-size-upLATEX, .font-size-downLATEX {
+.font-size-upLATEX,
+.font-size-downLATEX {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,7 +167,8 @@
   cursor: pointer;
 }
 
-.font-size-upLATEX:hover, .font-size-downLATEX:hover {
+.font-size-upLATEX:hover,
+.font-size-downLATEX:hover {
   color: var(--border-blue);
 }
 
@@ -236,20 +238,20 @@
   display: none;
 }
 
-.transparencyLATEX ~ svg {
+.transparencyLATEX~svg {
   border: 1px solid transparent;
   border-radius: 4px;
   padding: 2px;
 }
 
-.transparencyLATEX:checked ~ svg{
+.transparencyLATEX:checked~svg {
   border: 1px solid var(--border-blue);
 }
 
 .color-picker-bgLATEX,
 .color-picker-fontLATEX,
 .color-picker-hlLATEX,
-.color-picker-hl2LATEX  {
+.color-picker-hl2LATEX {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -298,7 +300,7 @@
   align-items: center;
 }
 
-.tooltipLATEX > h1 {
+.tooltipLATEX>h1 {
   text-align: center;
 }
 
