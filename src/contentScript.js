@@ -7,10 +7,14 @@ katexCSS.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
 document.head.appendChild(katexCSS);
 
 const PADDING = 40;
+const REMOVE_ANIMATION_TIME = 1000;
+const BORDER_COLOR = "#6fa7b1";
+const GREEN_COLOR = "#5eff6c";
 const MAIN_FONT_COLOR = '#B4FFB3';
 const MAIN_BG_COLOR = '#21303C';
 const MAIN_HL_COLOR = '#c4ac25';
-const MAIN_HL2_COLOR = '#a0a7d2'; const fontSizeLimit = 150;
+const MAIN_HL2_COLOR = '#a0a7d2';
+const fontSizeLimit = 150;
 
 const audio = new Audio(
   'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-pmsfx/PM_comcam_smena_symbol_camera_shutter_speed_dial_18_mkh8060_pmsfx_lss_2353.mp3'
@@ -34,6 +38,8 @@ fetch(chrome.runtime.getURL('test.html'))
     let resizing = false;
     let fontSize = 100;
     let textEquation = '';
+    let timeoutCopy = null;
+
     document.body.insertAdjacentHTML("beforeend", html)
     const $popup = document.querySelector('.boxLATEX');
     $popup.classList.add('boxLATEX');
@@ -206,7 +212,15 @@ fetch(chrome.runtime.getURL('test.html'))
     }
 
     function copy() {
+      clearTimeout(timeoutCopy);
       navigator.clipboard.writeText(textEquation);
+      const $check = document.querySelector(".checkLATEX");
+      $check.style.opacity = 1;
+      $copy.style.color = GREEN_COLOR;
+      timeoutCopy = setTimeout(() => {
+        $check.style.opacity = 0;
+        $copy.style.color = BORDER_COLOR;
+      }, REMOVE_ANIMATION_TIME)
     }
 
     const displayNonePopup = () => ($popup.style.display = 'none');

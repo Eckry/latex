@@ -15,7 +15,8 @@
   --highlightLATEX: #fb2576;
   --dark-highlightLATEX: #580e2a;
   --light-highlightLATEX: #606d26;
-  --border-blue: #6fa7b1;
+  --border-blueLATEX: #6fa7b1;
+  --greenLATEX: #5eff6c;
 }
 
 #popup {
@@ -55,7 +56,7 @@
   padding: 16px;
   border-radius: 8px;
   z-index: 9999999;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--border-blueLATEX);
   min-height: 300px;
   min-width: 500px;
 }
@@ -137,7 +138,7 @@
   align-items: center;
   width: min-content;
   z-index: 10001;
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--border-blueLATEX);
   border-radius: 6px;
   position: relative;
   padding: 4px;
@@ -169,7 +170,7 @@
 
 .font-size-upLATEX:hover,
 .font-size-downLATEX:hover {
-  color: var(--border-blue);
+  color: var(--border-blueLATEX);
 }
 
 .equationLATEX {
@@ -200,13 +201,12 @@
   border: none;
   background-color: transparent;
   padding: 4px;
-  color: var(--border-blue);
+  color: var(--border-blueLATEX);
   cursor: pointer;
   transition: 0.25s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.25s;
   border-radius: 8px;
   z-index: 10001;
   position: relative;
@@ -248,7 +248,7 @@
 }
 
 .transparencyLATEX:checked~svg {
-  border: 1px solid var(--border-blue);
+  border: 1px solid var(--border-blueLATEX);
 }
 
 .color-picker-bgLATEX,
@@ -302,4 +302,17 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.checkLATEX {
+  opacity: 0;
+  width: 8px;
+  height: 3px;
+  border-left: 2px solid var(--greenLATEX);
+  border-bottom: 2px solid var(--greenLATEX);
+  transform: rotate(-45deg);
+  position: absolute;
+  left: 45%;
+  top: 48%;
+  transition: 0.25s ease-in-out;
 }
