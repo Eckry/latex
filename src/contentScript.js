@@ -54,7 +54,6 @@ fetch(chrome.runtime.getURL('test.html'))
     $popup.draggable = true;
     $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
     const $input = document.querySelector('.inputLATEX');
-    $input.style.color = fontColor;
     $input.value = textEquation;
     const $clean = document.querySelector('.cleanLATEX');
     const $copy = document.querySelector('.copyLATEX');
@@ -74,7 +73,7 @@ fetch(chrome.runtime.getURL('test.html'))
     const $colorPickerFont = document.querySelector('.color-picker-fontLATEX');
     $colorPickerFont.value = fontColor;
     const $colorPickerHL = document.querySelector('.color-picker-hlLATEX');
-    $colorPickerHL.value = screenshotCheck;
+    $colorPickerHL.value = hlColor;
     const $colorPickerHL2 = document.querySelector('.color-picker-hl2LATEX');
     $colorPickerHL2.value = hl2Color;
 
@@ -114,7 +113,6 @@ fetch(chrome.runtime.getURL('test.html'))
       if (fC) {
         fontColor = fC;
         $colorPickerFont.value = fC;
-        $input.style.color = fontColor;
         $equation.style.color = fontColor;
       }
 
