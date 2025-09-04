@@ -10,6 +10,7 @@ const PADDING = 40;
 const REMOVE_ANIMATION_TIME = 1000;
 const BORDER_COLOR = "#6fa7b1";
 const GREEN_COLOR = "#5eff6c";
+const RED_COLOR = "#ff0000";
 const MAIN_FONT_COLOR = '#B4FFB3';
 const MAIN_BG_COLOR = '#21303C';
 const MAIN_HL_COLOR = '#c4ac25';
@@ -158,9 +159,9 @@ fetch(chrome.runtime.getURL('test.html'))
             URL.revokeObjectURL(url);
             console.log('Image downloaded!');
             $checkboxscreen.style.animationPlayState = "paused";
+            isTakingScreenshot = false;
           }, 'image/png');
         } else {
-          // Copy to clipboard
           canvas.toBlob(async (blob) => {
             if (!blob) {
               console.error('Failed to create blob from canvas');
@@ -175,19 +176,26 @@ fetch(chrome.runtime.getURL('test.html'))
               $checkboxscreen.style.borderColor = GREEN_COLOR;
               setTimeout(() => {
                 $screenshot.style.color = BORDER_COLOR;
+                isTakingScreenshot = false;
                 $checkboxscreen.style.animationPlayState = "paused";
                 $checkboxscreen.style.borderColor = BORDER_COLOR;
               }, REMOVE_ANIMATION_TIME)
               audio.play();
               console.log('Image copied to clipboard!');
             } catch (err) {
+              $screenshot.style.color = RED_COLOR;
+              $checkboxscreen.style.borderColor = RED_COLOR;
+              setTimeout(() => {
+                isTakingScreenshot = false;
+                $screenshot.style.color = BORDER_COLOR;
+                $checkboxscreen.style.animationPlayState = "paused";
+                $checkboxscreen.style.borderColor = BORDER_COLOR;
+              }, REMOVE_ANIMATION_TIME)
               console.error('Failed to copy image: ', err);
             }
           }, 'image/png');
         }
-      }).finally(() => {
-        isTakingScreenshot = false;
-      });
+      })
     }
 
     function render() {
