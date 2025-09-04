@@ -57,7 +57,7 @@
   border-radius: 8px;
   z-index: 9999999;
   border: 1px solid var(--border-blueLATEX);
-  min-height: 300px;
+  min-height: 500px;
   min-width: 500px;
 }
 
@@ -129,7 +129,6 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  overflow: overlay;
 }
 
 .font-size-containerLATEX {
@@ -173,12 +172,16 @@
   color: var(--border-blueLATEX);
 }
 
+
 .equationLATEX {
   font-size: 100px;
-  display: inline;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   padding: 4px 8px;
   margin: 0;
+  overflow: overlay;
 }
 
 .footerLATEX {
