@@ -213,7 +213,6 @@
 }
 
 .copyLATEX:hover,
-.screenshotLATEX:hover,
 .cleanLATEX:hover,
 .closeLATEX:hover,
 .saveScreenshotLATEX:hover,
@@ -223,7 +222,6 @@
 }
 
 .copyLATEX:active,
-.screenshotLATEX:active,
 .saveScreenshotLATEX:active,
 .cleanLATEX:active,
 .closeLATEX:active,
@@ -315,4 +313,30 @@
   left: 45%;
   top: 48%;
   transition: 0.25s ease-in-out;
+}
+
+.screenshotCheckLATEX {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px dashed var(--border-blueLATEX);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  animation: rotateAnim 1s linear infinite;
+  animation-play-state: paused;
+  transition: 0.25s ease-in-out;
+}
+
+@keyframes rotateAnim {
+  0% {
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  100% {
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(450deg);
+  }
 }

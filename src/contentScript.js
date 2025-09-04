@@ -39,6 +39,8 @@ fetch(chrome.runtime.getURL('test.html'))
     let fontSize = 100;
     let textEquation = '';
     let timeoutCopy = null;
+    let timeoutScreenshot = null;
+    let isTakingScreenshot = false;
 
     document.body.insertAdjacentHTML("beforeend", html)
     const $popup = document.querySelector('.boxLATEX');
@@ -127,9 +129,13 @@ fetch(chrome.runtime.getURL('test.html'))
       render();
     });
     function screenshot(save) {
+      if (isTakingScreenshot) return;
       const katexElement = document.querySelector(".katex-display");
       const { width, height } = katexElement.getBoundingClientRect();
 
+      const $checkboxscreen = document.querySelector(".screenshotCheckLATEX");
+      $checkboxscreen.style.animationPlayState = "running";
+      isTakingScreenshot = true;
       html2canvas(katexElement, {
         backgroundColor: transparency ? null : bgcolor,
         scale: 3,
@@ -151,6 +157,7 @@ fetch(chrome.runtime.getURL('test.html'))
             link.click();
             URL.revokeObjectURL(url);
             console.log('Image downloaded!');
+            $checkboxscreen.style.animationPlayState = "paused";
           }, 'image/png');
         } else {
           // Copy to clipboard
@@ -161,9 +168,16 @@ fetch(chrome.runtime.getURL('test.html'))
             }
 
             const item = new ClipboardItem({ 'image/png': blob });
-
             try {
               await navigator.clipboard.write([item]);
+              clearTimeout(timeoutScreenshot);
+              $screenshot.style.color = GREEN_COLOR;
+              $checkboxscreen.style.borderColor = GREEN_COLOR;
+              setTimeout(() => {
+                $screenshot.style.color = BORDER_COLOR;
+                $checkboxscreen.style.animationPlayState = "paused";
+                $checkboxscreen.style.borderColor = BORDER_COLOR;
+              }, REMOVE_ANIMATION_TIME)
               audio.play();
               console.log('Image copied to clipboard!');
             } catch (err) {
@@ -171,6 +185,8 @@ fetch(chrome.runtime.getURL('test.html'))
             }
           }, 'image/png');
         }
+      }).finally(() => {
+        isTakingScreenshot = false;
       });
     }
 
