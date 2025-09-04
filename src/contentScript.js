@@ -134,8 +134,8 @@ fetch(chrome.runtime.getURL('test.html'))
       const katexElement = document.querySelector(".katex-display");
       const { width, height } = katexElement.getBoundingClientRect();
 
-      const $checkboxscreen = document.querySelector(".screenshotCheckLATEX");
-      $checkboxscreen.style.animationPlayState = "running";
+      const $screenshotCheck = document.querySelector(".screenshotCheckLATEX");
+      $screenshotCheck.style.animationPlayState = "running";
       isTakingScreenshot = true;
       html2canvas(katexElement, {
         backgroundColor: transparency ? null : bgcolor,
@@ -158,7 +158,7 @@ fetch(chrome.runtime.getURL('test.html'))
             link.click();
             URL.revokeObjectURL(url);
             console.log('Image downloaded!');
-            $checkboxscreen.style.animationPlayState = "paused";
+            $screenshotCheck.style.animationPlayState = "paused";
             isTakingScreenshot = false;
           }, 'image/png');
         } else {
@@ -173,23 +173,23 @@ fetch(chrome.runtime.getURL('test.html'))
               await navigator.clipboard.write([item]);
               clearTimeout(timeoutScreenshot);
               $screenshot.style.color = GREEN_COLOR;
-              $checkboxscreen.style.borderColor = GREEN_COLOR;
+              $screenshotCheck.style.borderColor = GREEN_COLOR;
               setTimeout(() => {
                 $screenshot.style.color = BORDER_COLOR;
                 isTakingScreenshot = false;
-                $checkboxscreen.style.animationPlayState = "paused";
-                $checkboxscreen.style.borderColor = BORDER_COLOR;
+                $screenshotCheck.style.animationPlayState = "paused";
+                $screenshotCheck.style.borderColor = BORDER_COLOR;
               }, REMOVE_ANIMATION_TIME)
               audio.play();
               console.log('Image copied to clipboard!');
             } catch (err) {
               $screenshot.style.color = RED_COLOR;
-              $checkboxscreen.style.borderColor = RED_COLOR;
+              $screenshotCheck.style.borderColor = RED_COLOR;
               setTimeout(() => {
                 isTakingScreenshot = false;
                 $screenshot.style.color = BORDER_COLOR;
-                $checkboxscreen.style.animationPlayState = "paused";
-                $checkboxscreen.style.borderColor = BORDER_COLOR;
+                $screenshotCheck.style.animationPlayState = "paused";
+                $screenshotCheck.style.borderColor = BORDER_COLOR;
               }, REMOVE_ANIMATION_TIME)
               console.error('Failed to copy image: ', err);
             }
