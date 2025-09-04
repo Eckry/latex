@@ -74,7 +74,7 @@ fetch(chrome.runtime.getURL('test.html'))
     const $colorPickerFont = document.querySelector('.color-picker-fontLATEX');
     $colorPickerFont.value = fontColor;
     const $colorPickerHL = document.querySelector('.color-picker-hlLATEX');
-    $colorPickerHL.value = hlColor;
+    $colorPickerHL.value = screenshotCheck;
     const $colorPickerHL2 = document.querySelector('.color-picker-hl2LATEX');
     $colorPickerHL2.value = hl2Color;
 
@@ -276,7 +276,6 @@ fetch(chrome.runtime.getURL('test.html'))
 
     function changeFontColor(e) {
       fontColor = e.target.value;
-      console.log("xd")
       $equation.style.color = fontColor;
       chrome.storage.local.set({ fontColor });
     }
