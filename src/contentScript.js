@@ -43,6 +43,9 @@ fetch(chrome.runtime.getURL('test.html'))
     let timeoutCopy = null;
     let timeoutScreenshot = null;
     let isTakingScreenshot = false;
+    let fullscreen = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
 
     document.body.insertAdjacentHTML("beforeend", html)
     const $popup = document.querySelector('.boxLATEX');
@@ -56,6 +59,7 @@ fetch(chrome.runtime.getURL('test.html'))
     $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
     const $input = document.querySelector('.inputLATEX');
     $input.value = textEquation;
+    const $footer = document.querySelector(".footerLATEX");
     const $clean = document.querySelector('.cleanLATEX');
     const $copy = document.querySelector('.copyLATEX');
     const $screenshot = document.querySelector('.screenshotLATEX');
@@ -64,6 +68,9 @@ fetch(chrome.runtime.getURL('test.html'))
     const $fontSizeDown = document.querySelector('.font-size-downLATEX');
     const $close = document.querySelector('.closeLATEX');
     const $transparency = document.querySelector('.transparencyLATEX');
+    const $fullscreen = document.querySelector('.fullscreenLATEX');
+    const $deactivate = document.querySelector('.fullscreen-deactivateLATEX');
+    const $activate = document.querySelector('.fullscreen-activateLATEX');
     const $equation = document.querySelector('.equationLATEX');
     $equation.style.fontSize = `${fontSize}px`;
     $equation.style.color = fontColor;
@@ -290,7 +297,7 @@ fetch(chrome.runtime.getURL('test.html'))
     }
 
     $popup.addEventListener('dragstart', (e) => {
-      if (document.activeElement === $input || (!grabbing && !resizing)) {
+      if (document.activeElement === $input || (!grabbing && !resizing) || fullscreen) {
         e.preventDefault();
         return;
       }
@@ -307,6 +314,7 @@ fetch(chrome.runtime.getURL('test.html'))
 
     $popup.addEventListener('dragover', (e) => {
       e.preventDefault();
+      if (fullscreen) return;
 
       if (resizing) {
         const { left, top } = $popup.style;
@@ -315,8 +323,6 @@ fetch(chrome.runtime.getURL('test.html'))
         const { clientX, clientY } = e;
         const newWidth = clientX - initialX + initialWidth;
         const newHeight = clientY - initialY + initialHeight;
-
-        const $footer = document.querySelector(".footerLATEX");
         const { width: footerWidth } = $footer.getBoundingClientRect();
         if (newWidth + leftNum <= window.innerWidth && newWidth > footerWidth + FOOTER_PADDING)
           $popup.style.width = `${newWidth}px`;
@@ -328,15 +334,19 @@ fetch(chrome.runtime.getURL('test.html'))
         const { clientX, clientY } = e;
         const newLeft = clientX - offsetX;
         const newTop = clientY - offsetY;
-        if (newLeft >= 0 && newLeft + initialWidth <= window.innerWidth)
+        if (newLeft >= 0 && newLeft + initialWidth <= window.innerWidth) {
+          initialLeft = newLeft;
           $popup.style.left = `${newLeft}px`;
-        if (newTop >= 0 && newTop + initialHeight <= window.innerHeight)
+        }
+        if (newTop >= 0 && newTop + initialHeight <= window.innerHeight) {
+          initialTop = newTop;
           $popup.style.top = `${newTop}px`;
+        }
       }
     });
 
     $popup.addEventListener('dragend', (e) => {
-      e.preventDefault();
+      e.preventDefault(); if (fullscreen) return;
       const lastWidth = $popup.style.width
       const lastHeight = $popup.style.height
       initialWidth = parseFloat(lastWidth.slice(0, $popup.style.width.length - 2));
@@ -344,6 +354,7 @@ fetch(chrome.runtime.getURL('test.html'))
     });
 
     document.addEventListener('keydown', (e) => {
+      if (fullscreen) return;
       if (e.key === 'Control' && !resizing) {
         if (grabbing) {
           $popup.style.cursor = 'crosshair';
@@ -432,6 +443,34 @@ fetch(chrome.runtime.getURL('test.html'))
       $equation.style.fontSize = `${fontSize}px`;
       chrome.storage.local.set({ fontSize: fontSize });
     }
+
+    function toggleFullscreen() {
+      if (fullscreen) {
+        $deactivate.style.display = "none";
+        $activate.style.display = "block";
+        $popup.style.width = `${initialWidth}px`;
+        $popup.style.height = `${initialHeight}px`;
+        $popup.style.left = `${initialLeft}px`;
+        $popup.style.top = `${initialTop}px`;
+        $popup.style.borderWidth = "1px";
+        $popup.style.borderRadius = "8px";
+        fullscreen = 0;
+      } else {
+        resizing = 0;
+        grabbing = 0;
+        $popup.style.cursor = "crosshair"
+        $activate.style.display = "none";
+        $deactivate.style.display = "block";
+        fullscreen = 1;
+        $popup.style.left = 0;
+        $popup.style.top = 0;
+        $popup.style.width = "100vw";
+        $popup.style.height = "100vh";
+        $popup.style.borderWidth = "0px";
+        $popup.style.borderRadius = "0px";
+      }
+    }
+
     $input.addEventListener('input', updateEquation);
     $fontSize.addEventListener('input', readFontSize);
     $fontSizeUp.addEventListener('click', decreaseFontSize);
@@ -446,6 +485,8 @@ fetch(chrome.runtime.getURL('test.html'))
     $colorPickerHL.addEventListener('input', changeHLColor);
     $colorPickerHL2.addEventListener('input', changeHL2Color);
     $transparency.addEventListener('click', toggleTransparency);
+    $fullscreen.addEventListener('click', toggleFullscreen)
+
     function togglePopup() {
       const isHidden = $popup.style.display === 'none';
       const isVisible = $popup.style.display === 'flex';

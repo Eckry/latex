@@ -59,10 +59,8 @@
   z-index: 9999999;
   border: 1px solid var(--border-blueLATEX);
   min-height: 500px;
-  min-width: 500px;
+  min-width: 580px;
   box-sizing: border-box;
-  /* optional: keep the box inside viewport */
-  max-height: calc(100vh - 32px);
 }
 
 .disappearLATEX {
@@ -218,7 +216,8 @@
 .cleanLATEX,
 .closeLATEX,
 .saveScreenshotLATEX,
-.transparency-labelLATEX {
+.transparency-labelLATEX,
+.fullscreenLATEX {
   outline: none;
   border: none;
   background-color: transparent;
@@ -238,7 +237,8 @@
 .cleanLATEX:hover,
 .closeLATEX:hover,
 .saveScreenshotLATEX:hover,
-.transparency-labelLATEX:hover {
+.transparency-labelLATEX:hover,
+.fullscreenLATEX:hover {
   scale: 1.1;
   background-color: var(--light-primaryLATEX);
 }
@@ -247,7 +247,8 @@
 .saveScreenshotLATEX:active,
 .cleanLATEX:active,
 .closeLATEX:active,
-.transparency-labelLATEX:active {
+.transparency-labelLATEX:active,
+.fullscreenLATEX:active {
   scale: 1;
 }
 
@@ -361,4 +362,8 @@
     transform-origin: center;
     transform: translate(-50%, -50%) rotate(450deg);
   }
+}
+
+.fullscreen-deactivateLATEX {
+  display: none;
 }
