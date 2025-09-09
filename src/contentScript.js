@@ -7,6 +7,7 @@ katexCSS.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
 document.head.appendChild(katexCSS);
 
 const PADDING = 40;
+const FOOTER_PADDING = 10;
 const REMOVE_ANIMATION_TIME = 1000;
 const BORDER_COLOR = "#6fa7b1";
 const GREEN_COLOR = "#5eff6c";
@@ -33,7 +34,7 @@ fetch(chrome.runtime.getURL('test.html'))
     let offsetY;
     let initialX;
     let initialY;
-    let initialWidth = 500;
+    let initialWidth = 700;
     let initialHeight = 500;
     let grabbing = false;
     let resizing = false;
@@ -49,7 +50,7 @@ fetch(chrome.runtime.getURL('test.html'))
     $popup.style.display = 'none';
     $popup.style.left = '50px';
     $popup.style.top = '50px';
-    $popup.style.width = '500px';
+    $popup.style.width = `${initialWidth}px`;
     $popup.style.height = '500px';
     $popup.draggable = true;
     $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
@@ -314,7 +315,10 @@ fetch(chrome.runtime.getURL('test.html'))
         const { clientX, clientY } = e;
         const newWidth = clientX - initialX + initialWidth;
         const newHeight = clientY - initialY + initialHeight;
-        if (newWidth + leftNum <= window.innerWidth)
+
+        const $footer = document.querySelector(".footerLATEX");
+        const { width: footerWidth } = $footer.getBoundingClientRect();
+        if (newWidth + leftNum <= window.innerWidth && newWidth > footerWidth + FOOTER_PADDING)
           $popup.style.width = `${newWidth}px`;
         if (newHeight + topNum <= window.innerHeight)
           $popup.style.height = `${newHeight}px`;
