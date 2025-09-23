@@ -46,6 +46,7 @@ fetch(chrome.runtime.getURL('test.html'))
     let fullscreen = 0;
     let initialLeft = 0;
     let initialTop = 0;
+    let dragging = 0;
 
     document.body.insertAdjacentHTML("beforeend", html)
     const $popup = document.querySelector('.boxLATEX');
@@ -55,7 +56,7 @@ fetch(chrome.runtime.getURL('test.html'))
     $popup.style.top = '50px';
     $popup.style.width = `${initialWidth}px`;
     $popup.style.height = '500px';
-    $popup.draggable = true;
+    $popup.draggable = false;
     $popup.style.backgroundColor = bgcolor + (transparency ? '74' : "");
     const $input = document.querySelector('.inputLATEX');
     $input.value = textEquation;
@@ -296,44 +297,36 @@ fetch(chrome.runtime.getURL('test.html'))
       chrome.storage.local.set({ hl2Color });
     }
 
-    $popup.addEventListener('dragstart', (e) => {
-      if (document.activeElement === $input || (!grabbing && !resizing) || fullscreen) {
-        e.preventDefault();
-        return;
+    $popup.addEventListener("mousedown", (e) => {
+      if (document.activeElement === $input || fullscreen) return;
+      dragging = 1;
+      if (grabbing) {
+        const rect = $popup.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+        document.body.style.userSelect = "none";
       }
-      const rect = $popup.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      initialX = e.clientX;
-      initialY = e.clientY;
-      var img = new Image();
-      img.src =
-        'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-      e.dataTransfer.setDragImage(img, 0, 0);
-    });
-
-    $popup.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      if (fullscreen) return;
 
       if (resizing) {
-        const { left, top } = $popup.style;
-        const leftNum = parseFloat(left.slice(0, left.length - 2));
-        const topNum = parseFloat(top.slice(0, left.length - 2));
-        const { clientX, clientY } = e;
-        const newWidth = clientX - initialX + initialWidth;
-        const newHeight = clientY - initialY + initialHeight;
-        const { width: footerWidth } = $footer.getBoundingClientRect();
-        if (newWidth + leftNum <= window.innerWidth && newWidth > footerWidth + FOOTER_PADDING)
-          $popup.style.width = `${newWidth}px`;
-        if (newHeight + topNum <= window.innerHeight)
-          $popup.style.height = `${newHeight}px`;
+        initialX = e.clientX;
+        initialY = e.clientY;
+        initialWidth = $popup.offsetWidth;
+        initialHeight = $popup.offsetHeight;
+        initialLeft = $popup.offsetLeft;
+        initialTop = $popup.offsetTop;
+        document.body.style.userSelect = "none";
       }
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (fullscreen || !dragging) return;
 
       if (grabbing) {
-        const { clientX, clientY } = e;
-        const newLeft = clientX - offsetX;
-        const newTop = clientY - offsetY;
+        const newLeft = e.clientX - offsetX;
+        const newTop = e.clientY - offsetY;
+
         if (newLeft >= 0 && newLeft + initialWidth <= window.innerWidth) {
           initialLeft = newLeft;
           $popup.style.left = `${newLeft}px`;
@@ -343,29 +336,50 @@ fetch(chrome.runtime.getURL('test.html'))
           $popup.style.top = `${newTop}px`;
         }
       }
+
+      if (resizing) {
+        const newWidth = e.clientX - initialX + initialWidth;
+        const newHeight = e.clientY - initialY + initialHeight;
+        const { width: footerWidth } = $footer.getBoundingClientRect();
+
+        if (newWidth + initialLeft <= window.innerWidth &&
+          newWidth > footerWidth + FOOTER_PADDING) {
+          $popup.style.width = `${newWidth}px`;
+        }
+        if (newHeight + initialTop <= window.innerHeight) {
+          $popup.style.height = `${newHeight}px`;
+        }
+      }
     });
 
-    $popup.addEventListener('dragend', (e) => {
-      e.preventDefault(); if (fullscreen) return;
-      const lastWidth = $popup.style.width
-      const lastHeight = $popup.style.height
-      initialWidth = parseFloat(lastWidth.slice(0, $popup.style.width.length - 2));
-      initialHeight = parseFloat(lastHeight.slice(0, $popup.style.height.length - 2));
-    });
-
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("mouseup", () => {
+      document.body.style.userSelect = "";
       if (fullscreen) return;
-      if (e.key === 'Control' && !resizing) {
+      dragging = 0;
+      const lastWidth = $popup.style.width;
+      const lastHeight = $popup.style.height;
+      if (lastWidth) initialWidth = parseFloat(lastWidth);
+      if (lastHeight) initialHeight = parseFloat(lastHeight);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (fullscreen) return;
+
+      if (e.key === "Control" && !resizing) {
         if (grabbing) {
-          $popup.style.cursor = 'crosshair';
-        } else $popup.style.cursor = 'grab';
+          $popup.style.cursor = "crosshair";
+        } else {
+          $popup.style.cursor = "grab";
+        }
         grabbing = !grabbing;
       }
 
-      if (e.key === 'Shift' && !grabbing) {
+      if (e.key === "Shift" && !grabbing) {
         if (resizing) {
-          $popup.style.cursor = 'crosshair';
-        } else $popup.style.cursor = 'se-resize';
+          $popup.style.cursor = "crosshair";
+        } else {
+          $popup.style.cursor = "se-resize";
+        }
         resizing = !resizing;
       }
     });
